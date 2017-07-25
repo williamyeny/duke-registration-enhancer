@@ -1,0 +1,20 @@
+ {
+  "name": "Duke Registration Enhancer",
+  "description": "Chrome extension that enhances Dukehub's registration section.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab"
+  ],
+
+  "content_scripts": [ {
+    "js": [ "js/vendor/jquery-3.2.1.min.js", "js/main.js" ],
+    "css" : [ "css/restyle.css" ],
+    "matches": ["*://*.duke.edu/*"],
+    "all_frames": true
+  }]
+}

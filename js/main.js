@@ -1,11 +1,13 @@
 console.log("enhancer loaded");
 
-$("iframe").on("load", function() {
-  console.log("test");
-});
+
 
 var cssUrl = chrome.runtime.getURL("css/restyle.css");
 console.log("css url: " + cssUrl);
+
+$("iframe").on("load", function() {
+  $(this).contents().find("head").append("<link rel='stylesheet' href='" + cssUrl + "'>'");
+});
 
 // var observer = new MutationObserver(function(mutations) {
 //

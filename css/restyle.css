@@ -2,7 +2,7 @@
 
 /* registration side panel */
 .small-panel-heading {
-  padding:4px;
+  padding:4px 8px;
 }
 
 /* extraneous sidebar headers */
@@ -69,6 +69,16 @@
   border:none;
 }
 
+/* alphabet letters sort buttons */
+a[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],a[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM']:hover {
+  padding:3px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM']:hover {
+  background-color: transparent;
+}
+
 /* text containing "Duke University" and term */
 #win0divDERIVED_CLSRCH_SSS_PAGE_KEYDESCR {
   margin-top:10px;
@@ -92,6 +102,12 @@
 /* main iframe links */
 .PSHYPERLINK {
   font-size:12px !important;
+}
+
+/* expand courses arrow */
+a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAP2'] {
+  position:relative;
+  top:6px;
 }
 
 /* all links */

@@ -1,6 +1,6 @@
 # duke-registration-enhancer
 
-Chrome extension that enhances Dukehub's registration section.
+Chrome extension that enhances Dukehub's registration page by changing the page's appearance and adding features.
 
 ## Disclaimers
 

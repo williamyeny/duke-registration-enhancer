@@ -14,7 +14,6 @@
 #win0divDU_SEARCH_WRK_STRMlbl {
   margin-top: -5px;
 }
-
 #CLASS_SRCH_WRK2_INSTITUTION, #DU_SEARCH_WRK_STRM {
   padding:4px;
   margin-bottom:3px;
@@ -24,12 +23,10 @@
 #ACE_DERIVED_SSS_CRT_, #ACE_DERIVED_SSS_ENR_ {
   padding:5px 14px;
 }
-
 #ACE_DERIVED_SSS_ENR_GROUP_BOX tr:nth-child(2) td:nth-child(4) {
   left:10px;
   position:relative;
 }
-
 #ACE_DERIVED_SSS_ENR_GROUP_BOX {
   margin-top:15px;
 }
@@ -51,13 +48,12 @@
   border:1px solid;
   border-radius:2px;
 }
-
 .SSSBUTTON_ACTIONLINK:hover{
   border:1px solid;
 }
-
 #DU_DERIVED_STRM_DU_SETDEFAULT\$141\$\$span {
   background:none;border:none;
+  margin-top:-8px;
 }
 
 /* all links */

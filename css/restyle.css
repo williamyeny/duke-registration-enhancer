@@ -21,11 +21,7 @@
 
 /* class schedule and bookbag boxes */
 #ACE_DERIVED_SSS_CRT_, #ACE_DERIVED_SSS_ENR_ {
-  padding:5px 14px;
-}
-#ACE_DERIVED_SSS_ENR_GROUP_BOX tr:nth-child(2) td:nth-child(4) {
-  left:10px;
-  position:relative;
+  padding:5px 0px 5px 14px;
 }
 #ACE_DERIVED_SSS_ENR_GROUP_BOX {
   margin-top:15px;
@@ -34,26 +30,32 @@
 /* yellow "show all" button */
 .PSPUSHBUTTON:not(.Left) {
   width:auto;
-  border:1px solid #dddddd;
-  border-radius:2px;
+  border:1px solid transparent;
+  border-radius:3px;
   padding:4px 10px;
-  color:#181818;
+  color:white;
   cursor:pointer; /*for some reason, this is 'hand' in the default stylesheet???*/
+  background-color:#01518e;
 }
+.PSPUSHBUTTON.Left, .PSPUSHBUTTON.Left:hover {
+  background: transparent;
+  border:none !important;
+}
+
 .PSPUSHBUTTON:not(.Left):hover {
-  background-color:#bebe91;
+  opacity:0.5;
 }
 
 /* green "set terms" button */
 .SSSBUTTON_ACTIONLINK {
   padding:3px 10px;
-  border:1px solid #dddddd;
-  border-radius:2px;
+  border:1px solid transparent;
+  border-radius:3px;
   font-weight: normal;
   text-transform: capitalize;
 }
 .SSSBUTTON_ACTIONLINK:hover{
-  border:1px solid #dddddd;
+  border:1px solid transparent;
   font-weight:normal;
   text-transform: capitalize;
 }
@@ -80,6 +82,16 @@
 /* div containing all the subjects */
 #win0divSUBJECT\$0 {
   margin-top:-10px;
+}
+
+/* get rid of space above "Search by Subject" */
+#ACE_DERIVED_SSTSNAV_GROUP_BOX\$17\$ tbody tr:nth-child(2) {
+  display:none;
+}
+
+/* main iframe links */
+.PSHYPERLINK {
+  font-size:12px !important;
 }
 
 /* all links */

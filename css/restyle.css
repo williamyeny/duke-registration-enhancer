@@ -62,6 +62,26 @@
   margin:-8px -18px;
 }
 
+/* box containing alphabet to sort */
+.PSFRAMEWBO {
+  border:none;
+}
+
+/* text containing "Duke University" and term */
+#win0divDERIVED_CLSRCH_SSS_PAGE_KEYDESCR {
+  margin-top:10px;
+}
+
+/* line between "Instructions" and "Course Subject Lookup" */
+#win0divDERIVED_CLSRCH_SS_TRANSACT_TITLE {
+  display:none;
+}
+
+/* div containing all the subjects */
+#win0divSUBJECT\$0 {
+  margin-top:-10px;
+}
+
 /* all links */
 a {
   text-decoration-skip: ink; /* skipping underlines */

@@ -4,6 +4,9 @@ $("iframe").on("load", function() {
   console.log("test");
 });
 
+var cssUrl = chrome.runtime.getURL("css/restyle.css");
+console.log("css url: " + cssUrl);
+
 // var observer = new MutationObserver(function(mutations) {
 //
 //   mutations.forEach(function(mutation) {

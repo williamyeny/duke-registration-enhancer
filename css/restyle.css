@@ -33,7 +33,6 @@
 
 /* yellow "show all" button */
 .PSPUSHBUTTON:not(.Left) {
-  font-weight: bold;
   width:auto;
   border:1px solid #dddddd;
   border-radius:2px;
@@ -41,19 +40,26 @@
   color:#181818;
   cursor:pointer; /*for some reason, this is 'hand' in the default stylesheet???*/
 }
+.PSPUSHBUTTON:not(.Left):hover {
+  background-color:#bebe91;
+}
 
 /* green "set terms" button */
 .SSSBUTTON_ACTIONLINK {
-  padding:3px 0px;
-  border:1px solid;
+  padding:3px 10px;
+  border:1px solid #dddddd;
   border-radius:2px;
+  font-weight: normal;
+  text-transform: capitalize;
 }
 .SSSBUTTON_ACTIONLINK:hover{
-  border:1px solid;
+  border:1px solid #dddddd;
+  font-weight:normal;
+  text-transform: capitalize;
 }
 #DU_DERIVED_STRM_DU_SETDEFAULT\$141\$\$span {
   background:none;border:none;
-  margin-top:-8px;
+  margin:-8px -18px;
 }
 
 /* all links */

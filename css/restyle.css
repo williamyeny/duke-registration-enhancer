@@ -99,15 +99,38 @@ span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'
   display:none;
 }
 
-/* main iframe links */
+/* registration links */
 .PSHYPERLINK {
   font-size:12px !important;
 }
 
-/* expand courses arrow */
+/* all text */
+.PSEDITBOX_DISPONLY {
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+/* "old number =" */
+div[id*='win0divDERIVED_SSS_BCC_DESCRlbl'] {
+  position: relative;
+  margin-left: 10px;
+}
+
+/* spacing between courses */
+#ACE_DU_SS_SUBJ_CAT\$0 tbody tr td[height='20'] {
+  height:25px;
+}
+
+/* 1st layer expand courses arrow dropdown */
 a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAP2'] {
   position:relative;
   top:6px;
+}
+
+/* 2nd layer expand courses arrow dropdown */
+a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
+  position:relative;
+  top:3px;
 }
 
 /* all links */

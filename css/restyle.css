@@ -140,6 +140,12 @@ a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
   top:4px;
 }
 
+/* course status icons */
+#ACE_DERIVED_REGFRM1_SSR_WAIT_LIST_ON\$0 tbody tr:nth-child(2) td div {
+  position:relative;
+  top:5px;
+}
+
 /* course options */
 .PSGRIDNAVIGATOR {
   display:none;

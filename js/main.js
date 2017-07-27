@@ -7,9 +7,6 @@ console.log("css url: " + cssUrl);
 $("iframe").on("load", function() {
   //inject css into iframe
   $(this).contents().find("head").append("<link rel='stylesheet' href='" + cssUrl + "'>'");
-
-
-
 });
 
 //Runs when the main registration window loads
@@ -36,14 +33,16 @@ function dropDownAddClickListener() {
       console.log("courses section is expanded");
       e.preventDefault();
       var buttonId = $(this).attr("id");
-      var buttonNumber = buttonId[buttonId.length - 1];
-
+      //just get number off of the end of the ID
+      var buttonNumber = buttonId.replace("DU_SEARCH_WRK_SSR_EXPAND_COLLAPS$", "");
+      console.log("buttonNumber: " + buttonNumber);
       /*
       delete the expanded courses section!
       (we are forced to use .parent() is because the tr's dont have ids!)
       */
       var coursesSection = $("#ptifrmtgtframe").contents().find("#win0divGROUP_CAT\\$" + buttonNumber).parent().parent();
       //remove the spacing tr first
+      console.log("HTML: " + coursesSection.next().html());
       coursesSection.next().remove();
       //remove the actual tr
       coursesSection.remove();

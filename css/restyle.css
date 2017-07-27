@@ -140,6 +140,17 @@ a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
   top:4px;
 }
 
+/* course options */
+.PSGRIDNAVIGATOR {
+  display:none;
+}
+
+/* course nav bar */
+.PSLEVEL3GRIDWBO tbody tr td:first-child[colspan] {
+  padding: 6px 10px;
+  border-radius: 3px 3px 0px 0px;
+}
+
 /* all links */
 a {
   text-decoration-skip: ink; /* skipping underlines */

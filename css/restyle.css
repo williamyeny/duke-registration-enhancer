@@ -100,26 +100,33 @@ span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'
 }
 
 /* registration links */
-.PSHYPERLINK {
+
+/*.PSHYPERLINK {*/
+#DERIVED_SSS_ENR_SS_CLS_SCHED_LINK, #DERIVED_SSS_CRT_LINK_ADD_ENRL {
   font-size:12px !important;
 }
 
 /* all text */
-.PSEDITBOX_DISPONLY {
+/*.PSEDITBOX_DISPONLY {
   font-size: 12px;
-  font-family: sans-serif;
-}
+}*/
+
 
 /* "old number =" */
-div[id*='win0divDERIVED_SSS_BCC_DESCRlbl'] {
+/*div[id*='win0divDERIVED_SSS_BCC_DESCRlbl'] {
   position: relative;
   margin-left: 10px;
-}
+}*/
 
 /* spacing between courses */
-#ACE_DU_SS_SUBJ_CAT\$0 tbody tr td[height='20'] {
+/*#ACE_DU_SS_SUBJ_CAT\$0 tbody tr td[height='20'] {
   height:25px;
-}
+}*/
+
+/* spacing between elements in courses */
+/*#ACE_DU_SS_SUBJ_CAT\$0 tbody tr:first-child td[width='252'] {
+  width:330px;
+}*/
 
 /* 1st layer expand courses arrow dropdown */
 a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAP2'] {
@@ -130,7 +137,7 @@ a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAP2'] {
 /* 2nd layer expand courses arrow dropdown */
 a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
   position:relative;
-  top:3px;
+  top:4px;
 }
 
 /* all links */

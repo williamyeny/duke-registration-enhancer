@@ -158,7 +158,7 @@ a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
 }
 
 /* height of list of courses in subject */
-table[id*='ACE_GB_SUBJECT'] tbody tr:nth-child(2) td:first-child {
+table[id*='ACE_GB_SUBJECT'] > tbody:first-child > tr:nth-child(2) > td:first-child {
   height:auto;
 }
 

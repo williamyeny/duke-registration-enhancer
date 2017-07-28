@@ -52,9 +52,6 @@ function dropDownAddClickListener() {
 
       //restore "expanded" button image
       buttonImage.attr("src", "/cs/CSPRD01/cache/PS_EXPAND_ICN_1.gif");
-
-      //have height of subject section respond to change
-      iframeContents.find("div[id*='win0divGB_SUBJECT']").parent().parent().children("td:first-child").attr("height","auto");
     }
   });
 }

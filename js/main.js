@@ -1,3 +1,5 @@
+var iframeContents;
+
 console.log("enhancer loaded");
 
 //get extension css url
@@ -11,6 +13,7 @@ $("iframe").on("load", function() {
 
 //Runs when the main registration window loads
 $("#ptifrmtgtframe").on("load", function() {
+  iframeContents = $("#ptifrmtgtframe").contents();
   var observer = new MutationObserver(function(mutations) {
     console.log("changed");
     /*
@@ -26,7 +29,7 @@ $("#ptifrmtgtframe").on("load", function() {
 
 //Runs when the inner dropdown buttons are clicked
 function dropDownAddClickListener() {
-  $("#ptifrmtgtframe").contents().find("a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS']").on("click", function(e) {
+  iframeContents.find("a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS']").on("click", function(e) {
     //if it is in expanded form
     var buttonImage = $(this).children();
     if (buttonImage.attr("src") == "/cs/CSPRD01/cache/PS_COLLAPSE_ICN_1.gif") {
@@ -40,7 +43,7 @@ function dropDownAddClickListener() {
       delete the expanded courses section!
       (we are forced to use .parent() is because the tr's dont have ids!)
       */
-      var coursesSection = $("#ptifrmtgtframe").contents().find("#win0divGROUP_CAT\\$" + buttonNumber).parent().parent();
+      var coursesSection = iframeContents.find("#win0divGROUP_CAT\\$" + buttonNumber).parent().parent();
       //remove the spacing tr first
       console.log("HTML: " + coursesSection.next().html());
       coursesSection.next().remove();
@@ -49,6 +52,9 @@ function dropDownAddClickListener() {
 
       //restore "expanded" button image
       buttonImage.attr("src", "/cs/CSPRD01/cache/PS_EXPAND_ICN_1.gif");
+
+      //have height of subject section respond to change
+      iframeContents.find("div[id*='win0divGB_SUBJECT']").parent().parent().children("td:first-child").attr("height","auto");
     }
   });
 }

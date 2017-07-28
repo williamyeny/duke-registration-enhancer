@@ -157,6 +157,11 @@ a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS'] {
   border-radius: 3px 3px 0px 0px;
 }
 
+/* height of list of courses in subject */
+table[id*='ACE_GB_SUBJECT'] tbody tr:nth-child(2) td:first-child {
+  height:auto;
+}
+
 /* all links */
 a {
   text-decoration-skip: ink; /* skipping underlines */

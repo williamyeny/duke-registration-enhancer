@@ -10,6 +10,10 @@ Chrome extension that enhances Dukehub's registration page by changing the page'
 
 - This may intentionally break functionality. There might be buttons I believe absolutely no one uses, so I will remove or change them. HOWEVER, if you actually miss them, please don't hesitate to contact me.
 
+## Contributing
+
+Fork, clone, create a new branch, add your changes, and submit a pull request. For adding a new feature, please create an option so users can toggle it on/off. To do this, make sure to modify `options.html`, `js/options.js` and `main.js`. Also, create a new Javascript file and add it to `manifest.json` to keep things neat.
+
 ## Contact
 
 For questions and feedback, open an issue here or email me at wy35@duke.edu

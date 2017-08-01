@@ -3,15 +3,13 @@ console.log("enhancer loaded");
 //get options
 chrome.storage.sync.get({
   appearanceUpgrades: true, //default values
-  instantCollapse: false
+  instantCollapse: false,
+  hoverPreview: true
 }, function(options) {
   console.log("options loaded: " + JSON.stringify(options));
 
-  //sync options (in case default)
-  chrome.storage.sync.set({
-    appearanceUpgrades: options.appearanceUpgrades,
-    instantCollapse: options.instantCollapse
-  });
+  //sync options
+  chrome.storage.sync.set(options);
 
   //initialize
   if (options.appearanceUpgrades) injectCss();

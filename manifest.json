@@ -8,7 +8,8 @@
     "persistent": false
   },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "web_accessible_resources":[
     "css/restyle.css"

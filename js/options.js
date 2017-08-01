@@ -18,12 +18,11 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-  chrome.storage.sync.get({
-    appearanceUpgrades: true, //default values
-    instantCollapse: false
-  }, function(items) {
+  chrome.storage.sync.get(null, function(items) {
     document.getElementById('appearance-upgrades').checked = items.appearanceUpgrades;
     document.getElementById('instant-collapse').checked = items.instantCollapse;
+
+    console.log(JSON.stringify(items));
   });
 }
 

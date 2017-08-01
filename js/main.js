@@ -1,20 +1,19 @@
 console.log("enhancer loaded");
 
-injectCss();
+//get options
+chrome.storage.sync.get({
+  appearanceUpgrades: true, //default values
+  instantCollapse: false
+}, function(options) {
+  console.log("options loaded: " + JSON.stringify(options));
 
-//Runs when the main registration window loads
-$("#ptifrmtgtframe").on("load", function() {
-
-  var defaultIframeDocument = $("#DU_SEARCH_SUBJECT");
-  console.log("default: " + defaultIframeDocument);
-  var observer = new MutationObserver(function(mutations) {
-    console.log("changed");
-    /*
-    We need to add the click listener with every iframe DOM change because the
-    change removes the listener
-    */
-    dropDownAddClickListener(defaultIframeDocument);
-
+  //sync options (in case default)
+  chrome.storage.sync.set({
+    appearanceUpgrades: options.appearanceUpgrades,
+    instantCollapse: options.instantCollapse
   });
-  observer.observe($(this).contents().find("body")[0], {childList: true, subtree: true});
+
+  //initialize
+  if (options.appearanceUpgrades) injectCss();
+  injectJs(options);
 });

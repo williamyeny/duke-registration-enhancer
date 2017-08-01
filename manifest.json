@@ -13,6 +13,10 @@
   "web_accessible_resources":[
     "css/restyle.css"
   ],
+  "options_ui": {
+    "page":"options.html",
+    "open_in_tab": true
+  },
 
   "content_scripts": [ {
     "js": [ "js/vendor/jquery-3.2.1.min.js", "js/injectCss.js", "js/instantCollapse.js", "js/main.js" ],

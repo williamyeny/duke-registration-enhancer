@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>My Test Extension Options</title>
+    <style>
+        body {
+            max-width:400px;
+            margin:50px auto;
+        }
+        #save {
+            margin-top:30px;
+
+            border:transparent;
+            border-radius: 3px;
+            padding:4px 10px;
+            color:white;
+            background-color:#01518e;
+            cursor:pointer;
+        }
+        input {
+            top:2px;
+            position: relative;
+        }
+
+    </style>
+    </head>
+
+    <body>
+        <h1>Duke Registration Page Options </h1>
+        <label>
+            <input type="checkbox" id="appearance-upgrades">
+            Appearance Upgrades
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="instant-collapse">
+            [Experimental] Instant Collapse 
+        </label>
+        <br>
+
+        <button id="save">Save</button>
+        <div id="status"></div>
+        
+
+        <script src="js/options.js"></script>
+    </body>
+</html>

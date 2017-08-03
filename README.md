@@ -12,9 +12,9 @@ Chrome extension that enhances Dukehub's registration page by changing the page'
 
 ## Testing
 
-To test the extension, go to `chrome://extensions`, enable developed and load unpacked extension. Select the `extension` folder.
+To test the extension, go to `chrome://extensions`, enable developer mode and load unpacked extension. Select the `extension` folder.
 
-To test the lambda server, install Serverless first; `npm install -g serverless` in command line. Next, navigate to the `lambda` folder and `npm install` there. Deploy the service with `serverless deploy -v`, or `serverless deploy function -f hello` for a single function. Invoke a function with `serverless invoke -f hello -l`. For more information, check out the [Serverless documentation](https://serverless.com/framework/docs/providers/aws/guide/quick-start/);
+To test the lambda server, please check out the [Serverless Quick Start guide](https://serverless.com/framework/docs/providers/aws/guide/quick-start/).
 
 ## Contributing
 

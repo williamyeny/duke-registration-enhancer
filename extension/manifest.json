@@ -22,10 +22,14 @@
   "content_scripts": [ {
     "js": [ 
       "js/vendor/jquery-3.2.1.min.js", 
+
+      "js/dropDownClickListener.js",
       "js/injectCss.js", 
-      "js/instantCollapse.js", 
       "js/injectJs.js",
-      "js/main.js" ],
+      "js/main.js",
+
+      "js/features/instantCollapse.js"
+    ],
     "css" : [ "css/restyle.css" ],
     "matches": ["*://ihprd.siss.duke.edu/psp/IHPRD01/EMPLOYEE/SA/c/DU_WORKCENTER.DU_WORKCENTER_09.GBL*"],
     "all_frames": true

@@ -111,13 +111,6 @@ span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'
   font-size: 12px;
 }*/
 
-
-/* "old number =" */
-/*div[id*='win0divDERIVED_SSS_BCC_DESCRlbl'] {
-  position: relative;
-  margin-left: 10px;
-}*/
-
 /* spacing between courses */
 /*#ACE_DU_SS_SUBJ_CAT\$0 tbody tr td[height='20'] {
   height:25px;
@@ -163,6 +156,21 @@ table[id^='ACE_GB_SUBJECT'] > tbody:first-child > tr:nth-child(2) > td:first-chi
 }
 table[id^='ACE_SUBJECT$'][cols='6'] > tbody:first-child > tr > td[height]:not([colspan]):not([width]) {
   height:auto;
+}
+
+/* OLD NUMBER */
+div[id^='win0divDERIVED_SSS_BCC_DESCRlbl'] {
+  display:none;
+}
+span[id^='DERIVED_SSS_BCC_DESCR'] {
+  position: relative;
+}
+span[id^='DERIVED_SSS_BCC_DESCR']::before {
+  content: "OLD: ";
+  color:#01518e;
+  position:absolute;
+  left:-30px;
+  top:0px;
 }
 
 /* all links */

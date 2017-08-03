@@ -66,7 +66,7 @@
 
 /* box containing alphabet to sort */
 .PSFRAMEWBO {
-  border:none;
+  border:none !important;
 }
 
 /* alphabet letters sort buttons */

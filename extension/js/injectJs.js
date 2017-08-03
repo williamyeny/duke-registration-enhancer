@@ -1,6 +1,8 @@
 /*
     Name: injectJs.js
-    Desc: Injects Javascript files (features, listeners, etc.) into the course registration embedded iframe.
+    Desc: Runs Javascript files (features, listeners, etc.) when the embedded registration iframe loads.
+          Important: despite also prefixed with "inject", this file interacts with the iframe from the parent dom once the iframe loads, 
+          as opposed to injectCss.js, which directly injects CSS into the iframe.
 */
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")

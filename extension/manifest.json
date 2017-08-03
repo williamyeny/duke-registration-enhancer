@@ -12,7 +12,9 @@
     "storage"
   ],
   "web_accessible_resources":[
-    "css/restyle.css"
+    "css/restyle.css",
+
+    "js/vendor/jquery-3.2.1.min.js"
   ],
   "options_ui": {
     "page":"options.html",

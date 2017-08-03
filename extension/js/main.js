@@ -1,4 +1,9 @@
-console.log("enhancer loaded");
+/*
+    Name: main.js
+    Desc: Initializes extension and loads user options/settings.
+*/
+
+console.log("Duke Registration Enhancer running...");
 
 //get options
 chrome.storage.sync.get({

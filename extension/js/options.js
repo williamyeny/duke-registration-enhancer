@@ -1,3 +1,8 @@
+/*
+    Name: options.js
+    Desc: Changes user options/settings (see: options.html)
+*/
+
 // Saves options to chrome.storage.sync.
 function save_options() {
   var appearanceUpgrades = document.getElementById('appearance-upgrades').checked;

@@ -1,3 +1,9 @@
+/*
+    Name: instantCollapse.js
+    Desc: Instantly collapses a course when the dropdown button is clicked and the course is expanded.
+          Disabled by default due to bug -- read bottom TODO
+*/
+
 function instantCollapse(button, iframeContents, e) {
     //if it is in expanded form
   var buttonImage = $(button).children();
@@ -23,7 +29,7 @@ function instantCollapse(button, iframeContents, e) {
     //restore "expanded" button image
     buttonImage.attr("src", "/cs/CSPRD01/cache/PS_EXPAND_ICN_1.gif");
 
-    //TODO: trick the site into thinking it is truly collapsed so attempting to reopen a collapsed subject won't reset it
+    //TODO: trick the site into thinking it is truly collapsed so attempting to reopen a collapsed subject won't just reset the page
     
     // iframeContents.find("#ICStateNum").val(parseInt(iframeContents.find("#ICStateNum").val()) + 1);
   } else { //if it's not in expanded form

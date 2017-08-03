@@ -1,3 +1,9 @@
+/*
+    Name: dropDownClickListener.js
+    Desc: Detects when a course dropdown button is clicked.
+          Also finds the code of said clicked course.
+*/
+
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
 

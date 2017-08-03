@@ -1,3 +1,8 @@
+/*
+    Name: injectJs.js
+    Desc: Injects Javascript files (features, listeners, etc.) into the course registration embedded iframe.
+*/
+
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
 

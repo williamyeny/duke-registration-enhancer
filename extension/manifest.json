@@ -30,7 +30,8 @@
       "js/injectJs.js",
       "js/main.js",
 
-      "js/features/instantCollapse.js"
+      "js/features/instantCollapse.js",
+      "js/features/rmp_link.js"
     ],
     "css" : [ "css/restyle.css" ],
     "matches": ["*://ihprd.siss.duke.edu/psp/IHPRD01/EMPLOYEE/SA/c/DU_WORKCENTER.DU_WORKCENTER_09.GBL*"],

@@ -1,4 +1,4 @@
-# duke-registration-enhancer
+# Duke Registration Enhancer
 
 Chrome extension that enhances Dukehub's registration page by changing the page's appearance and adding features.
 
@@ -18,7 +18,7 @@ To test the lambda server, please check out the [Serverless Quick Start guide](h
 
 ## Contributing
 
-Fork, clone, create a new branch, add your changes, and submit a pull request. For adding a new feature, please create an option so users can toggle it on/off. To do this, make sure to modify `options.html`, `js/options.js` and `main.js`. Also, create a new Javascript file and add it to `manifest.json` to keep things neat.
+Please go to [CONTRIBUTING.md](CONTRIBUTING.md) to learn how to contribute
 
 ## Contact
 

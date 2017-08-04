@@ -9,7 +9,7 @@ console.log("Duke Registration Enhancer running...");
 chrome.storage.sync.get({
   appearanceUpgrades: true, //default values
   instantCollapse: true,
-  hoverPreview: true
+  infoPreview: true
 }, function(options) {
   console.log("Duke Registration Enhancer options loaded: ");
   for (option in options) {

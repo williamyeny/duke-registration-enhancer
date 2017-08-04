@@ -7,11 +7,11 @@
 function save_options() {
   var appearanceUpgrades = document.getElementById('appearance-upgrades').checked;
   var instantCollapse = document.getElementById('instant-collapse').checked;
-  var hoverPreview = document.getElementById('hover-preview').checked;
+  var infoPreview = document.getElementById('info-preview').checked;
   chrome.storage.sync.set({
     appearanceUpgrades: appearanceUpgrades,
     instantCollapse: instantCollapse,
-    hoverPreview: hoverPreview
+    infoPreview: infoPreview
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -28,7 +28,7 @@ function restore_options() {
   chrome.storage.sync.get(null, function(items) {
     document.getElementById('appearance-upgrades').checked = items.appearanceUpgrades;
     document.getElementById('instant-collapse').checked = items.instantCollapse;
-    document.getElementById('hover-preview').checked = items.hoverPreview;
+    document.getElementById('info-preview').checked = items.infoPreview;
     console.log(JSON.stringify(items));
   });
 }

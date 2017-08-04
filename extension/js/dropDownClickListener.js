@@ -20,7 +20,7 @@ function dropDownClickListener(options, ifc) {
     console.log(courseCode);
 
     //run instantCollapse feature (js/instantCollapse.js)
-    if (options.instantCollapse) instantCollapse(button, iframeContents, e);
+    if (options.instantCollapse.value) instantCollapse(button, iframeContents, e);
 
   });
 }

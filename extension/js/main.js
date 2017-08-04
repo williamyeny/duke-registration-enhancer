@@ -7,20 +7,32 @@ console.log("Duke Registration Enhancer running...");
 
 //get options
 chrome.storage.sync.get({
-  appearanceUpgrades: true, //default values
-  instantCollapse: true,
-  infoPreview: true,
-  rmpLink: true,
+  appearanceUpgrades: { //default values
+    name: "Appearance upgrades",
+    value: true
+  }, 
+  instantCollapse: {
+    name: "Instant course collapse",
+    value: true
+  },
+  infoPreview: {
+    name: "Info preview",
+    value: true
+  },
+  rmpLink: {
+    name: "RateMyProfessors link",
+    value: true
+  },
 }, function(options) {
   console.log("Duke Registration Enhancer options loaded: ");
   for (option in options) {
-    console.log("  " + option + ": " + options[option]);
+    console.log("  " + options[option].name + ": " + options[option].value);
   }
 
   //sync options
   chrome.storage.sync.set(options);
 
   //initialize
-  if (options.appearanceUpgrades) injectCss();
+  if (options.appearanceUpgrades.value) injectCss();
   injectJs(options);
 });

@@ -24,7 +24,7 @@ function injectJs(options) {
 
             // add RateMyProfessors link
 
-            if (options.rmpLink) rmpLink(mutations);
+            if (options.rmpLink.value) rmpLink(mutations);
 
         });
         observer.observe($(this).contents().find("body")[0], {childList: true, subtree: true}); //observe the body of the iframe when any elements are added

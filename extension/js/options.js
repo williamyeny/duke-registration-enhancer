@@ -8,10 +8,12 @@ function save_options() {
   var appearanceUpgrades = document.getElementById('appearance-upgrades').checked;
   var instantCollapse = document.getElementById('instant-collapse').checked;
   var infoPreview = document.getElementById('info-preview').checked;
+  var rmpLink = document.getElementById('rmp-link').checked;
   chrome.storage.sync.set({
     appearanceUpgrades: appearanceUpgrades,
     instantCollapse: instantCollapse,
-    infoPreview: infoPreview
+    infoPreview: infoPreview,
+    rmpLink: rmpLink
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -29,6 +31,7 @@ function restore_options() {
     document.getElementById('appearance-upgrades').checked = items.appearanceUpgrades;
     document.getElementById('instant-collapse').checked = items.instantCollapse;
     document.getElementById('info-preview').checked = items.infoPreview;
+    document.getElementById('rmp-link').checked = items.rmpLink;
     console.log(JSON.stringify(items));
   });
 }

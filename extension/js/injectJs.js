@@ -9,6 +9,12 @@
 var iframeContents;
 
 function injectJs(features) {
+    //load cache
+    var cache = {};
+    chrome.storage.sync.get("cache", function(c) {
+        cache = c.cache;
+    });
+
     //Runs when the main registration window loads
     $("#ptifrmtgtframe").on("load", function () {
         //get contents of the loaded frame
@@ -26,7 +32,7 @@ function injectJs(features) {
             if (features.rmpLink.value) rmpLink(mutations, iframeContents);
 
             // info preview
-            if (features.infoPreview.value) infoPreview(mutations, iframeContents);
+            if (features.infoPreview.value) infoPreview(mutations, iframeContents, cache);
 
         });
         observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added

@@ -5,9 +5,12 @@
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
+var cache;
 
-function infoPreview(mutations, ifc) {
+function infoPreview(mutations, ifc, c) {
   iframeContents = ifc;
+
+  cache = c;
 
   mutations.forEach(function (mutation) {
     //go through each element that was changed
@@ -27,19 +30,36 @@ function infoPreview(mutations, ifc) {
           var tooltip = $(this).children();
           tooltip.css("display", "inline");
 
-          //get description                    
+          //populate description                    
           if (tooltip.html() == defaultTooltip) {
-            var courseUrl = buildUrl(this);
 
-            console.log("request sent...");
-            $.getJSON(courseUrl, function (data) {
+            //check if course exists in cache already
+            var courseCode = getCourseCode(this);            
+            if (courseCode in cache) {
+              tooltip.html(cache[courseCode]);
+            } else { // course not in cache -- get course desc from API
+              var courseUrl = buildUrl(this);
 
+              console.log("request sent...");
+              $.getJSON(courseUrl, function (data) { // get course description
+
+                var description = data.description;
+
+                // update cache
+                console.log("old cache: " + JSON.stringify(cache));
+                cache[data.subjectId + data.number] = description;
+                console.log("new cache: " + JSON.stringify(cache));
+                //sync cache
+                chrome.storage.sync.set(cache, function () {
+                  console.log("cache synced!");
+                });
+                
+                //inject description
+                tooltip.html(description);
+              });
               //expand to fit content
               tooltip.css("width", "400");
-              //inject description
-              tooltip.html(data.description);
-            });
-
+            }
           }
         });
 
@@ -72,6 +92,16 @@ function getSubjectCode(elementId) {
     }
   });
   return subjectCode;
+}
+
+//e.g. ECON 101
+function getCourseCode(badge) {
+  var parentId = $(badge).parent().parent().attr("id");
+
+  //get number at the end of ID (specifies course)
+  var courseIndex = parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
+
+  return getSubjectCode(parentId) + getCourseNumber(courseIndex);
 }
 
 function buildUrl(badge) {

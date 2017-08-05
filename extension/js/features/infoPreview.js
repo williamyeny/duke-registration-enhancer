@@ -23,7 +23,7 @@ function infoPreview(mutations, iframeContents) {
                     tooltip.css("display", "inline");
 
                     //get description
-                    if (tooltip.html(defaultTooltip)) {                    
+                    if (tooltip.html() == defaultTooltip) {                    
                         //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103
                         
                         //get term
@@ -47,7 +47,7 @@ function infoPreview(mutations, iframeContents) {
                         $.getJSON(courseUrl, function(data){
 
                             //expand to fit content
-                            tooltip.css("width","300");
+                            tooltip.css("width","400");
                             //inject description
                             tooltip.html(data.description);
                         });
@@ -67,7 +67,7 @@ function infoPreview(mutations, iframeContents) {
 //e.g. 101
 function getCourseNumber(index) {
     //use number to find corresponding element containing course number
-    return iframeContents.find("#DU_SS_SUBJ_CAT_CATALOG_NBR\\$" + index).html();;
+    return iframeContents.find("#DU_SS_SUBJ_CAT_CATALOG_NBR\\$" + index).html();
 }
 
 //e.g. ECON

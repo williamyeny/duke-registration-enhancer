@@ -23,7 +23,7 @@ function injectJs(options) {
             dropDownClickListener(options, iframeContents);
 
             // add RateMyProfessors link
-            if (options.rmpLink.value) rmpLink(mutations);
+            if (options.rmpLink.value) rmpLink(mutations, iframeContents);
 
             // info preview
             if (options.infoPreview.value) infoPreview(mutations, iframeContents);

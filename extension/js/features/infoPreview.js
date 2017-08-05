@@ -1,3 +1,8 @@
+/*
+    Name: infoPreview.js
+    Desc: allows students to preview information of a course with elements next to unexpanded courses
+*/
+
 function infoPreview(mutations, iframeContents) {
   mutations.forEach(function(mutation) {
     //go through each element that was changed

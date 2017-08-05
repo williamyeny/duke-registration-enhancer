@@ -1,4 +1,9 @@
-function rmpLink(mutations) {
+/*
+    Name: rmpLink.js
+    Desc: lets users search up a professor on RateMyProfessors with a single click
+*/
+
+function rmpLink(mutations, iframeContents) {
   mutations.forEach(function(mutation) {
     //go through each element that was changed
     mutation.addedNodes.forEach(function(node) {

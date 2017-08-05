@@ -10,7 +10,7 @@ function infoPreview(mutations, iframeContents) {
 
         //check if sujects are exposed
         if (node.id == "ACE_width") {
-            iframeContents.find("div[id^='win0divDERIVED_SSS_BCC_DESCR']").append("<div class='info-preview'><p class='early'>early</p></div>");
+            iframeContents.find("div[id^='win0divDERIVED_SSS_BCC_DESCR']").append("<div class='info-preview'><span class='early-info'>early</span><span class='description-info'>description</span></div>");
         }
     });
 

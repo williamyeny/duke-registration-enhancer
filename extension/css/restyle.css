@@ -5,7 +5,29 @@
 
 /* info preview styles */
 .info-preview {
-  background-color: red;
+  position: absolute;
+  left:75px;
+  top:0px;
+  font-size: 12px;
+}
+span[class$='-info'] {
+  margin: 0px 5px;
+  padding:3px 10px;
+  border-radius: 3px;
+}
+span[class^='early'] {
+  background-color: #ffdd57;
+}
+span[class^='description'] {
+  background-color:#2366d1;
+  color:white;
+}
+span[class^='synopsis'] {
+  background-color: #00b89c;
+  color:white;
+}
+div[id^='win0divDERIVED_SSS_BCC_DESCR'] {
+  position: relative;
 }
 
 /* registration side panel */

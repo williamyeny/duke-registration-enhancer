@@ -5,7 +5,7 @@
 */
 
 function instantCollapse(button, iframeContents, e) {
-    //if it is in expanded form
+  //if it is in expanded form
   var buttonImage = $(button).children();
   if (buttonImage.attr("src") == "/cs/CSPRD01/cache/PS_COLLAPSE_ICN_1.gif") {
     console.log("courses section is expanded");

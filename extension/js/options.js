@@ -15,11 +15,11 @@ function save_options() {
   console.log(jsonString);
 
 
-  chrome.storage.sync.set(JSON.parse(jsonString), function() {
+  chrome.storage.sync.set(JSON.parse(jsonString), function () {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
     status.textContent = 'Options saved.';
-    setTimeout(function() {
+    setTimeout(function () {
       status.textContent = '';
     }, 2000);
   });
@@ -28,15 +28,15 @@ function save_options() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-  chrome.storage.sync.get(null, function(options) {
-        
+  chrome.storage.sync.get(null, function (options) {
+
     //generate HTML
     var featuresHtml;
     var features = options.features;
     if (Object.keys(options).length) {
       featuresHtml = "";
       for (feature in features) {
-        featuresHtml += "<label><input type=\"checkbox\" id=\"" + feature + "\" " + (features[feature].value ? "checked" : "") +" name=\"" + features[feature].name + "\">" + features[feature].name +"</label><br>";
+        featuresHtml += "<label><input type=\"checkbox\" id=\"" + feature + "\" " + (features[feature].value ? "checked" : "") + " name=\"" + features[feature].name + "\">" + features[feature].name + "</label><br>";
       }
     } else {
       featuresHtml = "Oops! No settings were found. Try opening DukeHub's registration page to generate them!";
@@ -48,4 +48,4 @@ function restore_options() {
 
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
-    save_options);
+  save_options);

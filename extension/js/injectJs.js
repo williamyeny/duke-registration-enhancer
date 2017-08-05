@@ -10,12 +10,12 @@ var iframeContents;
 
 function injectJs(features) {
     //Runs when the main registration window loads
-    $("#ptifrmtgtframe").on("load", function() {
+    $("#ptifrmtgtframe").on("load", function () {
         //get contents of the loaded frame
         iframeContents = $(this).contents();
 
         //when dom is changed...
-        var observer = new MutationObserver(function(mutations) {
+        var observer = new MutationObserver(function (mutations) {
             /*
             We need to add the click listener with every iframe DOM change because the
             change removes the listener
@@ -29,6 +29,6 @@ function injectJs(features) {
             if (features.infoPreview.value) infoPreview(mutations, iframeContents);
 
         });
-        observer.observe($(this).contents().find("body")[0], {childList: true, subtree: true}); //observe the body of the iframe when any elements are added
+        observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added
     });
 }

@@ -11,7 +11,7 @@ chrome.storage.sync.get({
     appearanceUpgrades: { //default values
       name: "Appearance upgrades",
       value: true
-    }, 
+    },
     instantCollapse: {
       name: "Instant course collapse",
       value: true
@@ -25,7 +25,7 @@ chrome.storage.sync.get({
       value: true
     }
   }
-}, function(options) {
+}, function (options) {
   console.log("Duke Registration Enhancer features loaded: ");
   var features = options.features;
   for (feature in features) {

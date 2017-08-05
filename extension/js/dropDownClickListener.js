@@ -8,7 +8,7 @@
 function dropDownClickListener(features, iframeContents) {
 
   //on expand/collapse dropdown button click
-  iframeContents.find("a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS']").on("click", function(e) {
+  iframeContents.find("a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS']").on("click", function (e) {
     var button = this;
 
     //run instantCollapse feature (js/instantCollapse.js)

@@ -223,6 +223,13 @@ span[id^='DERIVED_SSS_BCC_DESCR']::before {
   top:0px;
 }
 
+/* go to top button */
+#win0divDERIVED_SSTSNAV_SSS_FOOTER_LINKS div a {
+  position: relative;
+  left: 8px;
+  top: -4px;
+}
+
 /* all links */
 a {
   text-decoration-skip: ink; /* skipping underlines */

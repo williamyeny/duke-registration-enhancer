@@ -6,8 +6,8 @@
 /* info preview styles */
 .info-preview {
   position: absolute;
-  left:75px;
-  top:0px;
+  left:90px;
+  top:4px;
   font-size: 12px;
 }
 span[class$='-info'] {
@@ -142,9 +142,9 @@ span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'],span[id*='SSR_CLSRCH_WRK2_SSR_ALPHANUM'
 }*/
 
 /* spacing between courses */
-/*#ACE_DU_SS_SUBJ_CAT\$0 tbody tr td[height='20'] {
+table[id^='ACE_DU_SS_SUBJ_CAT'] > tbody > tr > td[height='20'] {
   height:25px;
-}*/
+}
 
 /* spacing between elements in courses */
 /*#ACE_DU_SS_SUBJ_CAT\$0 tbody tr:first-child td[width='252'] {

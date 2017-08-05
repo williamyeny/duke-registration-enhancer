@@ -9,7 +9,8 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "*://duke.collegescheduler.com/*"
   ],
   "web_accessible_resources":[
     "css/restyle.css",

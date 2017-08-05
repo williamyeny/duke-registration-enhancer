@@ -21,32 +21,33 @@ function infoPreview(mutations, iframeContents) {
                 iframeContents.find(".description-info").mouseover(function() {
                     var tooltip = $(this).children();
                     tooltip.css("display", "inline");
-                    if (tooltip.html(defaultTooltip)) {
-                        //get description
+
+                    //get description
+                    if (tooltip.html(defaultTooltip)) {                    
                         //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103
-                        console.log("getting desc info!!!");
-                                                
+                        
                         //get term
                         var term = iframeContents.find("#DU_SEARCH_WRK_STRM :selected").text();
                         var termEncoded = term.replace(/\s/g, '%20');
 
-                        console.log("parent:");
-                        console.log($(this).parent().parent().attr("id"));
                         var parentId = $(this).parent().parent().attr("id");
-
                         
                         //get number at the end of ID (specifies course)
                         var courseIndex = parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$","");
+                        //get courseNumber
                         var courseNumber = getCourseNumber(courseIndex);
 
                         //get subject
                         var subjectCode = getSubjectCode(parentId);
-                        tooltip.html("this has been changed!");
 
                         //build URL
                         var courseUrl = "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber;
 
-                        console.log(courseUrl);
+                        console.log("request sent...");
+                        $.getJSON(courseUrl, function(data){
+                            
+                            tooltip.html(data.description);
+                        });
 
                     }
                 });

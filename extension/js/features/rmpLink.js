@@ -34,6 +34,7 @@ function rmpLink(mutations) {
 
             //search RMP for professor
             var span = $(this);
+            // here's the sample URL I got: http://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Duke+University&schoolID=1350&query=Connel+Fullenkamp
             var url = "http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=duke+university&queryoption=HEADER&query=" + firstName + "+" + lastName + "&facetSearch=true"
             console.info(url)
             var result = pname.link(url); 

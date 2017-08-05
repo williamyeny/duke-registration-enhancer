@@ -31,7 +31,8 @@
       "js/main.js",
 
       "js/features/instantCollapse.js",
-      "js/features/rmpLink.js"
+      "js/features/rmpLink.js",
+      "js/features/infoPreview.js"
     ],
     "css" : [ "css/restyle.css" ],
     "matches": ["*://ihprd.siss.duke.edu/psp/IHPRD01/EMPLOYEE/SA/c/DU_WORKCENTER.DU_WORKCENTER_09.GBL*"],

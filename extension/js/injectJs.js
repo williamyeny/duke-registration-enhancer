@@ -23,8 +23,10 @@ function injectJs(options) {
             dropDownClickListener(options, iframeContents);
 
             // add RateMyProfessors link
-
             if (options.rmpLink.value) rmpLink(mutations);
+
+            // info preview
+            if (options.infoPreview.value) infoPreview(mutations, iframeContents);
 
         });
         observer.observe($(this).contents().find("body")[0], {childList: true, subtree: true}); //observe the body of the iframe when any elements are added

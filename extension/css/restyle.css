@@ -1,5 +1,10 @@
 /* This file changes the appearance of the registration page */
 
+/* info preview styles */
+.info-preview {
+  background-color: red;
+}
+
 /* registration side panel */
 .small-panel-heading {
   padding:4px 8px;

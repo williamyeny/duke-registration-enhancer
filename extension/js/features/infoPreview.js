@@ -45,7 +45,10 @@ function infoPreview(mutations, iframeContents) {
 
                         console.log("request sent...");
                         $.getJSON(courseUrl, function(data){
-                            
+
+                            //expand to fit content
+                            tooltip.css("width","300");
+                            //inject description
                             tooltip.html(data.description);
                         });
 

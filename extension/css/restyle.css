@@ -3,27 +3,36 @@
     Desc: Changes the appearance of registration page.
 */
 
-/* info preview styles */
+/* holds badges/previews */
 .info-preview {
   position: absolute;
   left:325px;
   top:4px;
   font-size: 12px;
 }
+
+/* badges/previews, i.e. '.description-info' */
 span[class$='-info'] {
   margin: 0px 5px;
   padding:3px 10px;
   border-radius: 3px;
 }
+span[class$='-info']:hover {
+  background-color:#dadada;
+  color: white;
+}
 span[class^='early'] {
   background-color: #ffdd57;
+  border-color: #ffdd57;
 }
 span[class^='description'] {
   background-color:#2366d1;
+  border-color: #2366d1;
   color:white;
 }
 span[class^='synopsis'] {
   background-color: #00b89c;
+  border-color:#00b89c;
   color:white;
 }
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
@@ -35,8 +44,8 @@ span[class$='-tooltip'] {
   padding: 10px;
   border-radius: 3px;
   top:-3px;
+  color: white;
   background-color: rgba(0,0,0,0.6);
-  width:300px;
   z-index: 100;
   display: none;
 }

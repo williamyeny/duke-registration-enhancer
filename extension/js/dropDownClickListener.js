@@ -4,10 +4,8 @@
 */
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
-var iframeContents;
 
-function dropDownClickListener(options, ifc) {
-  iframeContents = ifc;
+function dropDownClickListener(options, iframeContents) {
 
   //on expand/collapse dropdown button click
   iframeContents.find("a[id*='DU_SEARCH_WRK_SSR_EXPAND_COLLAPS']").on("click", function(e) {

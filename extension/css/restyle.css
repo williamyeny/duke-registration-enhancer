@@ -29,6 +29,17 @@ span[class^='synopsis'] {
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
   position: relative;
 }
+span[class$='-tooltip'] {
+  position: absolute;
+  left: 90px;
+  padding: 10px;
+  border-radius: 3px;
+  top:-3px;
+  background-color: rgba(0,0,0,0.6);
+  width:300px;
+  z-index: 100;
+  display: none;
+}
 
 /* registration side panel */
 .small-panel-heading {

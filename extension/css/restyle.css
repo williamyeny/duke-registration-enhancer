@@ -6,7 +6,7 @@
 /* info preview styles */
 .info-preview {
   position: absolute;
-  left:90px;
+  left:325px;
   top:4px;
   font-size: 12px;
 }
@@ -26,7 +26,7 @@ span[class^='synopsis'] {
   background-color: #00b89c;
   color:white;
 }
-div[id^='win0divDERIVED_SSS_BCC_DESCR'] {
+div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
   position: relative;
 }
 

@@ -8,7 +8,7 @@ function rmpLink(mutations, iframeContents) {
     //go through each element that was changed
     mutation.addedNodes.forEach(function(node) {
       if (node.nodeName == "TABLE") {
-        console.info("drmp: table modified");
+        // console.info("drmp: table modified");
         //loop through spans with professor name(s)
         var pspans = $("#ptifrmtgtframe").contents().find("span[id*='DU_DERIVED_SS_DESCR100_2']");
         if (pspans.length > 0) {
@@ -35,15 +35,15 @@ function rmpLink(mutations, iframeContents) {
               lastName = pnameSplit[pnameSplit.length - 2]; 
             }
 
-            console.info("Professor first name: " + firstName + ", last name: " + lastName);
+            // console.info("Professor first name: " + firstName + ", last name: " + lastName);
 
             //search RMP for professor
             var span = $(this);
             // here's the sample URL I got: http://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Duke+University&schoolID=1350&query=Connel+Fullenkamp
             var url = "http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=duke+university&queryoption=HEADER&query=" + firstName + "+" + lastName + "&facetSearch=true"
-            console.info(url)
+            // console.info(url)
             var result = pname.link(url); 
-            document.getElementById('DU_DERIVED_SS_DESCR100_2').innerHTML = result;  	
+            // document.getElementById('DU_DERIVED_SS_DESCR100_2').innerHTML = result;  	
           });
         }
       }

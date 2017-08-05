@@ -26,7 +26,5 @@ function instantCollapse(button, iframeContents, e) {
 
     //restore "expanded" button image
     buttonImage.attr("src", "/cs/CSPRD01/cache/PS_EXPAND_ICN_1.gif");
-  } else { //if it's not in expanded form
-    console.log("not expanded!");
   }
 }

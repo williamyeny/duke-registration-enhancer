@@ -8,7 +8,7 @@
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
 
-function injectJs(options) {
+function injectJs(features) {
     //Runs when the main registration window loads
     $("#ptifrmtgtframe").on("load", function() {
         //get contents of the loaded frame
@@ -20,13 +20,13 @@ function injectJs(options) {
             We need to add the click listener with every iframe DOM change because the
             change removes the listener
             */
-            dropDownClickListener(options, iframeContents);
+            dropDownClickListener(features, iframeContents);
 
             // add RateMyProfessors link
-            if (options.rmpLink.value) rmpLink(mutations, iframeContents);
+            if (features.rmpLink.value) rmpLink(mutations, iframeContents);
 
             // info preview
-            if (options.infoPreview.value) infoPreview(mutations, iframeContents);
+            if (features.infoPreview.value) infoPreview(mutations, iframeContents);
 
         });
         observer.observe($(this).contents().find("body")[0], {childList: true, subtree: true}); //observe the body of the iframe when any elements are added

@@ -5,13 +5,13 @@
 
 // Saves options to chrome.storage.sync.
 function save_options() {
-  var jsonString = "{"
+  var jsonString = "{\"features\":{"
   var inputs = document.getElementsByTagName("input");
   console.log(inputs);
   for (i = 0; i < inputs.length; i++) {
     jsonString += "\"" + inputs[i].id + "\": { \"name\": \"" + inputs[i].name + "\", \"value\": " + inputs[i].checked + "},";
   }
-  jsonString = jsonString.slice(0, -1) + "}"; //remove comma and add closing bracket
+  jsonString = jsonString.slice(0, -1) + "}}"; //remove comma and add closing brackets
   console.log(jsonString);
 
 
@@ -30,20 +30,19 @@ function save_options() {
 function restore_options() {
   chrome.storage.sync.get(null, function(options) {
         
-    //generate options HTML
-    var optionsHtml;
-    console.log(Object.keys(options).length);
+    //generate HTML
+    var featuresHtml;
+    var features = options.features;
     if (Object.keys(options).length) {
-      optionsHtml = "";
-      for (option in options) {
-        optionsHtml += "<label><input type=\"checkbox\" id=\"" + option + "\" " + (options[option].value ? "checked" : "") +" name=\"" + options[option].name + "\">" + options[option].name +"</label><br>";
+      featuresHtml = "";
+      for (feature in features) {
+        featuresHtml += "<label><input type=\"checkbox\" id=\"" + feature + "\" " + (features[feature].value ? "checked" : "") +" name=\"" + features[feature].name + "\">" + features[feature].name +"</label><br>";
       }
     } else {
-      optionsHtml = "Oops! No settings were found. Try opening DukeHub's registration page to generate them!";
+      featuresHtml = "Oops! No settings were found. Try opening DukeHub's registration page to generate them!";
       document.getElementById("save").outerHTML = ""; //delete save button
     }
-    console.log(optionsHtml);
-    document.getElementById("options").innerHTML = optionsHtml;
+    document.getElementById("options").innerHTML = featuresHtml;
   });
 }
 

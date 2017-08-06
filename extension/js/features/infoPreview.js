@@ -59,9 +59,9 @@ function infoPreview(mutations, ifc, c) {
               }).fail(function() { // if unable to get URL
                 alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
               });
-              //expand to fit content
-              tooltip.css("width", "400");
             }
+            //expand to fit content
+            tooltip.css("width", "400");
           }
         });
 

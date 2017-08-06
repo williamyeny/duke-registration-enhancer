@@ -22,7 +22,7 @@ function infoPreview(mutations, ifc, c) {
 
         //add badge holder + description
         var defaultTooltip = "Loading...";
-        var descHtml = "<span class='description-info'>description<span class='description-tooltip'>" + defaultTooltip + "</span></span>";
+        var descHtml = "<div class='description-info'>description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
 
         //add listeners                
@@ -31,12 +31,12 @@ function infoPreview(mutations, ifc, c) {
           tooltip.css("display", "inline");
 
           //populate description                    
-          if (tooltip.html() == defaultTooltip) {
+          if (tooltip.children().html() == defaultTooltip) {
 
             //check if course exists in cache already
-            var courseCode = getCourseCode(this);            
+            var courseCode = getCourseCode(this);
             if (courseCode in cache) {
-              tooltip.html(cache[courseCode]);
+              tooltip.html(formatDescription(cache[courseCode]));
             } else { // course not in cache -- get course desc from API
               var courseUrl = buildUrl(this);
 
@@ -55,7 +55,9 @@ function infoPreview(mutations, ifc, c) {
                 });
                 
                 //inject description
-                tooltip.html(description);
+                tooltip.html(formatDescription(description));
+              }).fail(function() { // if unable to get URL
+                alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
               });
               //expand to fit content
               tooltip.css("width", "400");
@@ -123,4 +125,18 @@ function buildUrl(badge) {
 
   //build URL
   return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber;
+}
+
+function formatDescription(desc) {
+  desc = partitionByKeyword(desc, "Instructor:");
+  desc = partitionByKeyword(desc, "Prerequisite:");
+  return "<p>" + desc + "</p>";
+}
+
+function partitionByKeyword(text, keyword) {
+  var index = text.indexOf(keyword);
+  if (index != -1) {
+    text = text.substring(0, index) + "</p><p><strong>" + text.substring(index, index + keyword.length) + "</strong>" + text.substring(index + keyword.length, text.length);
+  }
+  return text;
 }

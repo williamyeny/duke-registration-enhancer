@@ -12,25 +12,25 @@
 }
 
 /* badges/previews, i.e. '.description-info' */
-span[class$='-info'] {
+div[class$='-info'] {
   margin: 0px 5px;
   padding:3px 10px;
   border-radius: 3px;
 }
-span[class$='-info']:hover {
+div[class$='-info']:hover {
   background-color:#dadada;
   color: white;
 }
-span[class^='early'] {
+div[class^='early'] {
   background-color: #ffdd57;
   border-color: #ffdd57;
 }
-span[class^='description'] {
+div[class^='description'] {
   background-color:#2366d1;
   border-color: #2366d1;
   color:white;
 }
-span[class^='synopsis'] {
+div[class^='synopsis'] {
   background-color: #00b89c;
   border-color:#00b89c;
   color:white;
@@ -38,10 +38,10 @@ span[class^='synopsis'] {
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
   position: relative;
 }
-span[class$='-tooltip'] {
+div[class$='-tooltip'] {
   position: absolute;
   left: 90px;
-  padding: 10px;
+  padding: 0px 12px;
   border-radius: 3px;
   top:-3px;
   color: white;

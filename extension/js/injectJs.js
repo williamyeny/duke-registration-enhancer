@@ -15,6 +15,12 @@ function injectJs(features) {
         cache = c.cache;
     });
 
+    // enable schedule builder
+    console.log("Logging into Schedule Builder...");
+    $.get("https://csprd.siss.duke.edu/psc/CSPRD01/EMPLOYEE/SA/c/SA_LEARNER_SERVICES_2.SSR_SSENRL_CART.GBL?page=DU_COLLSCHD_LAUNCH", function (data) {
+        console.log("Successfully logged into Schedule Builder!");
+    });
+
     //Runs when the main registration window loads
     $("#ptifrmtgtframe").on("load", function () {
         //get contents of the loaded frame

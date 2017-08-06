@@ -10,7 +10,8 @@
   "permissions": [
     "activeTab",
     "storage",
-    "*://duke.collegescheduler.com/*"
+    "*://duke.collegescheduler.com/*",
+    "*://csprd.siss.duke.edu/*"
   ],
   "web_accessible_resources":[
     "css/restyle.css",

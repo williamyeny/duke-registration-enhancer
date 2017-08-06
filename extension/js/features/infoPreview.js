@@ -6,6 +6,7 @@
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
 var cache;
+const defaultTooltip = "Loading...";
 
 function infoPreview(mutations, ifc, c) {
   iframeContents = ifc;
@@ -21,56 +22,61 @@ function infoPreview(mutations, ifc, c) {
         iframeContents.find("span[id^='DERIVED_SSS_BCC_DESCR']").css("display", "none");
 
         //add badge holder + description
-        var defaultTooltip = "Loading...";
-        var descHtml = "<div class='description-info'>description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
+        
+        var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
 
         //add listeners                
-        iframeContents.find(".description-info").mouseover(function () {
-          var tooltip = $(this).children();
-          tooltip.css("display", "inline");
-
-          //populate description                    
-          if (tooltip.children().html() == defaultTooltip) {
-
-            //check if course exists in cache already
-            var courseCode = getCourseCode(this);
-            if (courseCode in cache) {
-              tooltip.html(formatDescription(cache[courseCode]));
-            } else { // course not in cache -- get course desc from API
-              var courseUrl = buildUrl(this);
-
-              console.log("request sent...");
-              $.getJSON(courseUrl, function (data) { // get course description
-
-                var description = data.description;
-
-                // update cache
-                console.log("old cache: " + JSON.stringify(cache));
-                cache[data.subjectId + data.number] = description;
-                console.log("new cache: " + JSON.stringify(cache));
-                //sync cache
-                chrome.storage.sync.set(cache, function () {
-                  console.log("cache synced!");
-                });
-                
-                //inject description
-                tooltip.html(formatDescription(description));
-              }).fail(function() { // if unable to get URL
-                alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
-              });
-            }
-            //expand to fit content
-            tooltip.css("width", "400");
-          }
-        });
-
-        iframeContents.find(".description-info").mouseout(function () {
-          $(this).children().css("display", "none");
-        });
+        addDescriptionHover(); // passes in defaultToolTip to check if it has not been loaded
       }
     });
 
+  });
+}
+
+function addDescriptionHover() {
+  iframeContents.find(".description-info").mouseover(function () {
+    var tooltip = $(this).children();
+    // make tooltip visible
+    tooltip.css("display", "inline");
+
+    //populate description                    
+    if (tooltip.children().html() == defaultTooltip) {
+
+      //check if course exists in cache already
+      var courseCode = getCourseCode(this);
+      if (courseCode in cache) {
+        tooltip.html(formatDescription(cache[courseCode]));
+      } else { // course not in cache -- get course desc from API
+        var courseUrl = buildUrl(this);
+
+        console.log("request sent...");
+        $.getJSON(courseUrl, function (data) { // get course description
+
+          var description = data.description;
+
+          // update cache
+          console.log("old cache: " + JSON.stringify(cache));
+          cache[data.subjectId + data.number] = description;
+          console.log("new cache: " + JSON.stringify(cache));
+          //sync cache
+          chrome.storage.sync.set(cache, function () {
+            console.log("cache synced!");
+          });
+
+          //inject description
+          tooltip.html(formatDescription(description));
+        }).fail(function () { // if unable to get URL
+          alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
+        });
+      }
+      //expand to fit content
+      tooltip.css("width", "400");
+    }
+  });
+
+  iframeContents.find(".description-info").mouseout(function () {
+    $(this).children().css("display", "none");
   });
 }
 

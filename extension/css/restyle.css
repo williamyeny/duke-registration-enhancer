@@ -34,6 +34,8 @@ div[class^='synopsis'] {
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
   position: relative;
 }
+
+/* tooltip for the above badges */
 div[class$='-tooltip'] {
   position: absolute;
   left: 90px;
@@ -44,6 +46,16 @@ div[class$='-tooltip'] {
   background-color: rgba(0,0,0,0.6);
   z-index: 100;
   display: none;
+}
+span[class$='-warning'] {
+  padding:2px 5px;
+  border-radius: 3px;
+}
+span[class^='early'] {
+  background-color:#ffdd57;
+}
+span[class^='full'] {
+  background-color:#ff3860;
 }
 
 /* registration side panel */

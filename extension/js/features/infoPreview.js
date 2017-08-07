@@ -60,7 +60,7 @@ function addDescriptionHover() {
           var earlyText = "";
           data.sections.forEach(function(section) {
             var meeting = section.meetings[0];
-            if (meeting.startTime >= 900 && (meeting.meetingType == "LEC" || meeting.meetingType == "SEM")) { // if after 9 am...
+            if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am...
               return;
             } else if (section == data.sections[data.sections.length-1]) { // last index
               earlyText = "Lectures start before 9am!";
@@ -71,7 +71,7 @@ function addDescriptionHover() {
           var fullText = "";
           data.sections.forEach(function(section) {
             var meeting = section.meetings[0];
-            if (section.openSeats > 0 && (meeting.meetingType == "LEC" || meeting.meetingType == "SEM")) {
+            if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
               return;
             } else if (section == data.sections[data.sections.length-1]) {
               fullText = "All lectures are full!";
@@ -82,7 +82,7 @@ function addDescriptionHover() {
 
           // update cache
           console.log("old cache: " + JSON.stringify(cache));
-          cache[data.subjectId + data.number] = description;
+          cache[data.sections[0].subjectId + data.sections[0].course] = description;
           console.log("new cache: " + JSON.stringify(cache));
           //sync cache
           chrome.storage.sync.set(cache, function () {

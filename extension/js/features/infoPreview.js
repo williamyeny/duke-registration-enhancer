@@ -58,21 +58,22 @@ function addDescriptionHover() {
 
           // add 'early' warning
           var earlyText = "";
-          data.sections.forEach(function(section) {
+          data.sections.some(function(section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
             var meeting = section.meetings[0];
-            if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am...
-              return;
-            } else if (section == data.sections[data.sections.length-1]) { // last index
+
+            if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am, break
+              return true; // won't break if omitting true
+            } else if (section == data.sections[data.sections.length-1]) { // else if last index (none after 9am)
               earlyText = "Lectures start before 9am!";
             }
           });
 
           // add 'full' warning
           var fullText = "";
-          data.sections.forEach(function(section) {
-            var meeting = section.meetings[0];
+          data.sections.some(function(section) {
+
             if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
-              return;
+              return true;
             } else if (section == data.sections[data.sections.length-1]) {
               fullText = "All lectures are full!";
             }

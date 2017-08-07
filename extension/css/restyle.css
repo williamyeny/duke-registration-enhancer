@@ -21,10 +21,6 @@ div[class$='-info']:hover {
   background-color:#dadada;
   color: white;
 }
-div[class^='early'] {
-  background-color: #ffdd57;
-  border-color: #ffdd57;
-}
 div[class^='description'] {
   background-color:#2366d1;
   border-color: #2366d1;

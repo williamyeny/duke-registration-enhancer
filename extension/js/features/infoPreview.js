@@ -98,7 +98,7 @@ function addDescriptionHover() {
           //inject into tooltip
           tooltip.html(tooltipHtml);
         }).fail(function () { // if unable to get URL
-          alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
+          console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
         });
       }
       //expand to fit content

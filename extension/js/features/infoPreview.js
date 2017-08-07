@@ -21,9 +21,9 @@ function infoPreview(mutations, ifc, c) {
         //remove old number
         iframeContents.find("span[id^='DERIVED_SSS_BCC_DESCR']").css("display", "none");
 
-        //add badge holder + description
-        
+        //add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
+        console.log(descHtml);
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
 
         //add listeners                
@@ -51,9 +51,34 @@ function addDescriptionHover() {
         var courseUrl = buildUrl(this);
 
         console.log("request sent...");
-        $.getJSON(courseUrl, function (data) { // get course description
+        $.getJSON(courseUrl, function (data) { 
+          console.log(JSON.stringify(data));
+          // get course description
+          var description = data.sections[0].description;
 
-          var description = data.description;
+          // add 'early' warning
+          var earlyText = "";
+          data.sections.forEach(function(section) {
+            var meeting = section.meetings[0];
+            if (meeting.startTime >= 900 && (meeting.meetingType == "LEC" || meeting.meetingType == "SEM")) { // if after 9 am...
+              return;
+            } else if (section == data.sections[data.sections.length-1]) { // last index
+              earlyText = "Lectures start before 9am!";
+            }
+          });
+
+          // add 'full' warning
+          var fullText = "";
+          data.sections.forEach(function(section) {
+            var meeting = section.meetings[0];
+            if (section.openSeats > 0 && (meeting.meetingType == "LEC" || meeting.meetingType == "SEM")) {
+              return;
+            } else if (section == data.sections[data.sections.length-1]) {
+              fullText = "All lectures are full!";
+            }
+          });
+
+
 
           // update cache
           console.log("old cache: " + JSON.stringify(cache));
@@ -63,9 +88,11 @@ function addDescriptionHover() {
           chrome.storage.sync.set(cache, function () {
             console.log("cache synced!");
           });
+          
+          var tooltipHtml = formatDescription(description) + "<p>" + fullText + "<p></p>" + earlyText + "</p>";
 
-          //inject description
-          tooltip.html(formatDescription(description));
+          //inject into tooltip
+          tooltip.html(tooltipHtml);
         }).fail(function () { // if unable to get URL
           alert("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
         });
@@ -113,7 +140,7 @@ function getCourseCode(badge) {
 }
 
 function buildUrl(badge) {
-  //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103
+  //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103/regblocks
 
   //get term
   var term = iframeContents.find("#DU_SEARCH_WRK_STRM :selected").text();
@@ -130,7 +157,7 @@ function buildUrl(badge) {
   var subjectCode = getSubjectCode(parentId);
 
   //build URL
-  return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber;
+  return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber + "/regblocks";
 }
 
 function formatDescription(desc) {

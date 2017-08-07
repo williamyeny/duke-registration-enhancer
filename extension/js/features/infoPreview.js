@@ -44,9 +44,9 @@ function addDescriptionHover() {
     if (tooltip.children().html() == defaultTooltip) {
 
       //check if course exists in cache already
-      var courseCode = getCourseCode(this);
+      var courseCode = getCourseCode(this); 
       if (courseCode in cache) {
-        tooltip.html(formatDescription(cache[courseCode]));
+        tooltip.html(cache[courseCode].description);
       } else { // course not in cache -- get course desc from API
         var courseUrl = buildUrl(this);
 
@@ -78,18 +78,10 @@ function addDescriptionHover() {
             }
           });
 
-
+          var tooltipHtml = formatDescription(description) + "<p>" + fullText + "<p></p>" + earlyText + "</p>";
 
           // update cache
-          console.log("old cache: " + JSON.stringify(cache));
-          cache[data.sections[0].subjectId + data.sections[0].course] = description;
-          console.log("new cache: " + JSON.stringify(cache));
-          //sync cache
-          chrome.storage.sync.set(cache, function () {
-            console.log("cache synced!");
-          });
-          
-          var tooltipHtml = formatDescription(description) + "<p>" + fullText + "<p></p>" + earlyText + "</p>";
+          updateCache(courseCode, "description", tooltipHtml); 
 
           //inject into tooltip
           tooltip.html(tooltipHtml);
@@ -172,4 +164,17 @@ function partitionByKeyword(text, keyword) {
     text = text.substring(0, index) + "</p><p><strong>" + text.substring(index, index + keyword.length) + "</strong>" + text.substring(index + keyword.length, text.length);
   }
   return text;
+}
+
+function updateCache(courseCode, cacheKey, cacheValue) {
+  if (courseCode in cache) {                  // if exists...
+    cache[courseCode][cacheKey] = cacheValue; // update property
+  } else {
+    cache[courseCode] = {[cacheKey]: cacheValue}; // else, create a new course hash with that property
+  }
+
+  //sync cache
+  chrome.storage.sync.set(cache, function () {
+    console.log("cache synced!");
+  });       
 }

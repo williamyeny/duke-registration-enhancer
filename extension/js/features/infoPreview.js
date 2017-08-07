@@ -167,6 +167,8 @@ function buildUrl(badge, multipleTopics) {
 function formatDescription(desc) {
   desc = partitionByKeyword(desc, "Instructor:");
   desc = partitionByKeyword(desc, "Prerequisite:");
+  desc = partitionByKeyword(desc, "Instructors:");
+  desc = partitionByKeyword(desc, "Prerequisites:");
   return "<p>" + desc + "</p>";
 }
 

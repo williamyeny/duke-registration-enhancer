@@ -48,39 +48,50 @@ function addDescriptionHover() {
       if (courseCode in cache) {
         tooltip.html(cache[courseCode].description);
       } else { // course not in cache -- get course desc from API
-        var courseUrl = buildUrl(this);
+
+        //check if it has multiple topics
+        var multipleTopics = false;
+        if ($(this).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
+          multipleTopics = true;
+        }
+        var courseUrl = buildUrl(this, multipleTopics);
 
         console.log("request sent...");
         $.getJSON(courseUrl, function (data) { 
           console.log(JSON.stringify(data));
-          // get course description
-          var description = data.sections[0].description;
 
-          // add 'early' warning
-          var earlyText = "";
-          data.sections.some(function(section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
-            var meeting = section.meetings[0];
+          var tooltipHtml;
+          if (!multipleTopics) { // if it doesn't have multiple topics...
+            // get course description
+            var description = data.sections[0].description;
 
-            if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am, break
-              return true; // won't break if omitting true
-            } else if (section == data.sections[data.sections.length-1]) { // else if last index (none after 9am)
-              earlyText = "Lectures start before 9am!";
-            }
-          });
+            // add 'early' warning
+            var earlyText = "";
+            data.sections.some(function(section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
+              var meeting = section.meetings[0];
 
-          // add 'full' warning
-          var fullText = "";
-          data.sections.some(function(section) {
+              if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am, break
+                return true; // won't break if omitting true
+              } else if (section == data.sections[data.sections.length-1]) { // else if last index (none after 9am)
+                earlyText = "Lectures start before 9am!";
+              }
+            });
 
-            if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
-              return true;
-            } else if (section == data.sections[data.sections.length-1]) {
-              fullText = "All lectures are full!";
-            }
-          });
+            // add 'full' warning
+            var fullText = "";
+            data.sections.some(function(section) {
 
-          var tooltipHtml = formatDescription(description) + "<p>" + fullText + "<p></p>" + earlyText + "</p>";
+              if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
+                return true;
+              } else if (section == data.sections[data.sections.length-1]) {
+                fullText = "All lectures are full!";
+              }
+            });
 
+            tooltipHtml = formatDescription(description) + "<p>" + fullText + "<p></p>" + earlyText + "</p>";
+          } else { // if it does have multiple topics, use old URL
+            tooltipHtml = formatDescription(data.description);
+          }
           // update cache
           updateCache(courseCode, "description", tooltipHtml); 
 
@@ -132,7 +143,7 @@ function getCourseCode(badge) {
   return getSubjectCode(parentId) + getCourseNumber(courseIndex);
 }
 
-function buildUrl(badge) {
+function buildUrl(badge, multipleTopics) {
   //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103/regblocks
 
   //get term
@@ -150,7 +161,7 @@ function buildUrl(badge) {
   var subjectCode = getSubjectCode(parentId);
 
   //build URL
-  return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber + "/regblocks";
+  return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber + (multipleTopics ? "" : "/regblocks");
 }
 
 function formatDescription(desc) {

@@ -7,8 +7,8 @@
 .info-preview {
   position: absolute;
   left:325px;
-  top:4px;
-  font-size: 12px;
+  top:1px;
+  font-size:12px;
 }
 
 /* badges/previews, i.e. '.description-info' */
@@ -39,7 +39,7 @@ div[class$='-tooltip'] {
   left: 90px;
   padding: 0px 12px;
   border-radius: 3px;
-  top:-3px;
+  top: 0px;
   color: white;
   background-color: rgba(0,0,0,0.6);
   z-index: 100;

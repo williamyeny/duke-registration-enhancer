@@ -73,7 +73,7 @@ function addDescriptionHover() {
               if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am, break
                 return true; // won't break if omitting true
               } else if (section == data.sections[data.sections.length-1]) { // else if last index (none after 9am)
-                earlyText = "<p><span class='early-warning'>Lectures start before 9am!</span></p>";
+                earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
               }
             });
 
@@ -84,11 +84,11 @@ function addDescriptionHover() {
               if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
                 return true;
               } else if (section == data.sections[data.sections.length-1]) {
-                fullText = "<p><span class='full-warning'>All lectures are full!</span></p>";
+                fullText = "<span class='full-warning'>Lectures are full</span>";
               }
             });
 
-            tooltipHtml = formatDescription(description) + fullText + earlyText;
+            tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + "</p>";
           } else { // if it does have multiple topics, use old URL
             tooltipHtml = formatDescription(data.description);
           }

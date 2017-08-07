@@ -50,6 +50,7 @@ div[class$='-tooltip'] {
 span[class$='-warning'] {
   padding:2px 5px;
   border-radius: 3px;
+  margin-right: 5px;
 }
 span[class^='early'] {
   background-color:#ffdd57;

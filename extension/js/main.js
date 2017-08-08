@@ -17,8 +17,8 @@ chrome.storage.sync.get({  //default values
       value: true
     },
     infoPreview: {
-      name: "[Experimental] Info preview",
-      value: false
+      name: "Info preview",
+      value: true
     },
     rmpLink: {
       name: "RateMyProfessors link",

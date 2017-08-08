@@ -44,7 +44,7 @@ function addDescriptionHover() {
     if (tooltip.children().html() == defaultTooltip) {
 
       //check if course exists in cache already
-      var courseCode = getCourseCode(this); 
+      var courseCode = getCourseCode(this);
       if (courseCode in cache) {
         tooltip.html(cache[courseCode].description);
       } else { // course not in cache -- get course desc from API
@@ -57,7 +57,7 @@ function addDescriptionHover() {
         var courseUrl = buildUrl(this, multipleTopics);
 
         console.log("request sent...");
-        $.getJSON(courseUrl, function (data) { 
+        $.getJSON(courseUrl, function (data) {
           console.log(JSON.stringify(data));
 
           var tooltipHtml;
@@ -67,33 +67,42 @@ function addDescriptionHover() {
 
             // add 'early' warning
             var earlyText = "";
-            data.sections.some(function(section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
+            data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
               var meeting = section.meetings[0];
 
-              if (meeting.startTime >= 900 && (section.component == "LEC" || section.component == "SEM")) { // if after 9 am, break
+              if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
                 return true; // won't break if omitting true
-              } else if (section == data.sections[data.sections.length-1]) { // else if last index (none after 9am)
+              } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
                 earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
               }
             });
 
             // add 'full' warning
             var fullText = "";
-            data.sections.some(function(section) {
-
-              if (section.openSeats > 0 && (section.component == "LEC" || section.component == "SEM")) {
+            data.sections.some(function (section) {
+              if (section.openSeats > 0 && isLecture(section)) {
                 return true;
-              } else if (section == data.sections[data.sections.length-1]) {
+              } else if (section == data.sections[data.sections.length - 1]) {
                 fullText = "<span class='full-warning'>Lectures are full</span>";
               }
             });
 
-            tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + "</p>";
+            // add 'instructor consent' warning
+            var consentText = "";
+            data.sections.some(function (section) {
+              if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
+                return true;
+              } else if (section == data.sections[data.sections.length - 1]) {
+                consentText = "<span class='consent-warning'>Instructor consent required</span>";
+              }
+            });
+
+            tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + consentText + "</p>";
           } else { // if it does have multiple topics, use old URL
             tooltipHtml = formatDescription(data.description);
           }
           // update cache
-          updateCache(courseCode, "description", tooltipHtml); 
+          updateCache(courseCode, "description", tooltipHtml);
 
           //inject into tooltip
           tooltip.html(tooltipHtml);
@@ -109,6 +118,10 @@ function addDescriptionHover() {
   iframeContents.find(".description-info").mouseout(function () {
     $(this).children().css("display", "none");
   });
+}
+
+function isLecture(section) {
+  return section.component == "LEC" || section.component == "SEM";
 }
 
 //e.g. 101
@@ -184,6 +197,6 @@ function updateCache(courseCode, cacheKey, cacheValue) {
   if (courseCode in cache) {                  // if exists...
     cache[courseCode][cacheKey] = cacheValue; // update property
   } else {
-    cache[courseCode] = {[cacheKey]: cacheValue}; // else, create a new course hash with that property
+    cache[courseCode] = { [cacheKey]: cacheValue }; // else, create a new course hash with that property
   }
 }

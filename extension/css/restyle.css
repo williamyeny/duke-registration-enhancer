@@ -22,13 +22,11 @@ div[class$='-info']:hover {
   color: white;
 }
 div[class^='description'] {
-  background-color:#2366d1;
-  border-color: #2366d1;
+  background-color:#01518e;
   color:white;
 }
 div[class^='synopsis'] {
   background-color: #00b89c;
-  border-color:#00b89c;
   color:white;
 }
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
@@ -51,12 +49,16 @@ span[class$='-warning'] {
   padding:2px 5px;
   border-radius: 3px;
   margin-right: 5px;
+  display:inline-block;
 }
 span[class^='early'] {
   background-color:#ffdd57;
 }
 span[class^='full'] {
   background-color:#ff3860;
+}
+span[class^='consent'] {
+  background-color:#2366d1;
 }
 
 /* registration side panel */

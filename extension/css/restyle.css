@@ -16,18 +16,16 @@ div[class$='-info'] {
   margin: 0px 5px;
   padding:3px 10px;
   border-radius: 3px;
+  color:white;
 }
 div[class$='-info']:hover {
   background-color:#dadada;
-  color: white;
 }
 div[class^='description'] {
   background-color:#01518e;
-  color:white;
 }
 div[class^='synopsis'] {
   background-color: #00b89c;
-  color:white;
 }
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
   position: relative;
@@ -53,6 +51,7 @@ span[class$='-warning'] {
 }
 span[class^='early'] {
   background-color:#ffdd57;
+  color:black;
 }
 span[class^='full'] {
   background-color:#ff3860;

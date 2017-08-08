@@ -3,7 +3,7 @@
     Desc: lets users search up a professor on RateMyProfessors with a single click
 */
 
-function rmpLink(mutations, iframeContents) {
+function rmpLink(mutations) {
   mutations.forEach(function (mutation) {
     //go through each element that was changed
     mutation.addedNodes.forEach(function (node) {

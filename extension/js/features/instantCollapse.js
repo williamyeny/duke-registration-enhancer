@@ -4,7 +4,7 @@
           Disabled by default due to bug -- read bottom TODO
 */
 
-function instantCollapse(button, iframeContents, e) {
+function instantCollapse(button, e) {
   //if it is in expanded form
   var buttonImage = $(button).children();
   if (buttonImage.attr("src") == "/cs/CSPRD01/cache/PS_COLLAPSE_ICN_1.gif") {

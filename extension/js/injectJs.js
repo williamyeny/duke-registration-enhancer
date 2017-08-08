@@ -7,10 +7,9 @@
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
+var cache = {};
 
 function injectJs(features) {
-    //reset cache
-    var cache = {};
 
     // enable schedule builder
     console.log("Logging into Schedule Builder...");
@@ -29,13 +28,13 @@ function injectJs(features) {
             We need to add the click listener with every iframe DOM change because the
             change removes the listener
             */
-            dropDownClickListener(features, iframeContents);
+            dropDownClickListener(features);
 
             // add RateMyProfessors link
-            if (features.rmpLink.value) rmpLink(mutations, iframeContents);
+            if (features.rmpLink.value) rmpLink(mutations);
 
             // info preview
-            if (features.infoPreview.value) infoPreview(mutations, iframeContents, cache);
+            if (features.infoPreview.value) infoPreview(mutations);
 
         });
         observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added

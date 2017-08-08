@@ -4,14 +4,9 @@
 */
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
-var iframeContents;
-var cache;
 const defaultTooltip = "Loading...";
 
-function infoPreview(mutations, ifc, c) {
-  iframeContents = ifc;
-
-  cache = c;
+function infoPreview(mutations) {
 
   mutations.forEach(function (mutation) {
     //go through each element that was changed

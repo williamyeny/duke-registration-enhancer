@@ -24,16 +24,13 @@ chrome.storage.sync.get({  //default values
       name: "RateMyProfessors link",
       value: true
     }
-  },
-  cache: {} //don't mess with this!
+  }
 }, function (options) {
   console.log("Duke Registration Enhancer features loaded: ");
   var features = options.features;
   for (feature in features) {
     console.log("  " + features[feature].name + ": " + features[feature].value);
   }
-  //clear cache
-  options.cache = {};
 
   //sync options
   chrome.storage.sync.set(options);

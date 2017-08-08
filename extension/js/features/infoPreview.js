@@ -186,9 +186,4 @@ function updateCache(courseCode, cacheKey, cacheValue) {
   } else {
     cache[courseCode] = {[cacheKey]: cacheValue}; // else, create a new course hash with that property
   }
-
-  //sync cache
-  chrome.storage.sync.set(cache, function () {
-    console.log("cache synced!");
-  });       
 }

@@ -9,11 +9,8 @@
 var iframeContents;
 
 function injectJs(features) {
-    //load cache
+    //reset cache
     var cache = {};
-    chrome.storage.sync.get("cache", function(c) {
-        cache = c.cache;
-    });
 
     // enable schedule builder
     console.log("Logging into Schedule Builder...");

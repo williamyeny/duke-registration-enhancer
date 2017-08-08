@@ -16,6 +16,8 @@ To test the extension, go to `chrome://extensions`, enable developer mode and lo
 
 To test the lambda server, please check out the [Serverless Quick Start guide](https://serverless.com/framework/docs/providers/aws/guide/quick-start/).
 
+Note: lambda server is not being used ATM
+
 ## Contributing
 
 Please go to [CONTRIBUTING.md](CONTRIBUTING.md) to learn how to contribute

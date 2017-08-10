@@ -34,7 +34,7 @@ function injectJs(features) {
             if (features.rmpLink.enabled) rmpLink(mutations);
 
             // info preview
-            if (features.infoPreview.enabled) infoPreview(mutations);
+            if (features.infoPreview.enabled) infoPreview(mutations, features.infoPreview.settings);
 
         });
         observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added

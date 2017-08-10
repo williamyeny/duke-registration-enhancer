@@ -6,7 +6,7 @@
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 const defaultTooltip = "Loading...";
 
-function infoPreview(mutations) {
+function infoPreview(mutations, settings) {
 
   mutations.forEach(function (mutation) {
     //go through each element that was changed
@@ -18,11 +18,15 @@ function infoPreview(mutations) {
 
         //add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
-        console.log(descHtml);
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
 
-        //add listeners                
-        addDescriptionHover(); // passes in defaultToolTip to check if it has not been loaded
+        //add listeners
+        if (settings.clickView.enabled) {
+          addDescriptionClick(); // passes in defaultToolTip to check if it has not been loaded
+        } else {
+          addDescriptionHover();
+        }
+        
       }
     });
 
@@ -31,88 +35,114 @@ function infoPreview(mutations) {
 
 function addDescriptionHover() {
   iframeContents.find(".description-info").mouseover(function () {
-    var tooltip = $(this).children();
-    // make tooltip visible
-    tooltip.css("display", "inline");
-
-    //populate description                    
-    if (tooltip.children().html() == defaultTooltip) {
-
-      //check if course exists in cache already
-      var courseCode = getCourseCode(this);
-      if (courseCode in cache) {
-        tooltip.html(cache[courseCode].description);
-      } else { // course not in cache -- get course desc from API
-
-        //check if it has multiple topics
-        var multipleTopics = false;
-        if ($(this).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
-          multipleTopics = true;
-        }
-        var courseUrl = buildUrl(this, multipleTopics);
-
-        console.log("request sent...");
-        $.getJSON(courseUrl, function (data) {
-          console.log(JSON.stringify(data));
-
-          var tooltipHtml;
-          if (!multipleTopics) { // if it doesn't have multiple topics...
-            // get course description
-            var description = data.sections[0].description;
-
-            // add 'early' warning
-            var earlyText = "";
-            data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
-              var meeting = section.meetings[0];
-
-              if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
-                return true; // won't break if omitting true
-              } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
-                earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
-              }
-            });
-
-            // add 'full' warning
-            var fullText = "";
-            data.sections.some(function (section) {
-              if (section.openSeats > 0 && isLecture(section)) {
-                return true;
-              } else if (section == data.sections[data.sections.length - 1]) {
-                fullText = "<span class='full-warning'>Lectures are full</span>";
-              }
-            });
-
-            // add 'instructor consent' warning
-            var consentText = "";
-            data.sections.some(function (section) {
-              if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
-                return true;
-              } else if (section == data.sections[data.sections.length - 1]) {
-                consentText = "<span class='consent-warning'>Instructor consent required</span>";
-              }
-            });
-
-            tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + consentText + "</p>";
-          } else { // if it does have multiple topics, use old URL
-            tooltipHtml = formatDescription(data.description);
-          }
-          // update cache
-          updateCache(courseCode, "description", tooltipHtml);
-
-          //inject into tooltip
-          tooltip.html(tooltipHtml);
-        }).fail(function () { // if unable to get URL
-          console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
-        });
-      }
-      //expand to fit content
-      tooltip.css("width", "400");
-    }
+    showTooltip(this);
   });
 
   iframeContents.find(".description-info").mouseout(function () {
-    $(this).children().css("display", "none");
+    hideTooltip(this);
   });
+}
+
+function addDescriptionClick() {
+  //hiding tooltips on click
+  iframeContents.find("body, .PABACKGROUNDINVISIBLEWBO").on("click", function (e) { // for some reason, selecting body doesnt include PABACKGROUNDINVISIBLEWBO
+    var isBadge = $(e.target).attr("class") && $(e.target).attr("class").includes("-info");
+    if (isBadge && $(e.target).children().css("display") != "none") { // if clicked on badge and tooltip is visible...
+      hideTooltip(e.target); // hide that tooltip
+    } else if(!isBadge && !$(e.target).parent("div[class$='-info']").length) { // else, if not clicked on any badge + its contents...g
+      hideTooltip(iframeContents.find(".description-info")); // hide all tooltips
+    } else 
+
+    //show tooltips if there is nothing to hide
+    if (isBadge){
+      showTooltip(e.target);
+    }
+  });
+}
+
+function showTooltip(badge) {
+  var tooltip = $(badge).children();
+
+  //populate description                    
+  if (tooltip.children().html() == defaultTooltip) {
+
+    //check if course exists in cache already
+    var courseCode = getCourseCode(badge);
+    if (courseCode in cache) {
+      tooltip.html(cache[courseCode].description);
+    } else { // course not in cache -- get course desc from API
+
+      //check if it has multiple topics
+      var multipleTopics = false;
+      if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
+        multipleTopics = true;
+      }
+      var courseUrl = buildUrl(badge, multipleTopics);
+
+      console.log("request sent...");
+      $.getJSON(courseUrl, function (data) {
+        console.log(JSON.stringify(data));
+
+        var tooltipHtml;
+        if (!multipleTopics) { // if it doesn't have multiple topics...
+          // get course description
+          var description = data.sections[0].description;
+
+          // add 'early' warning
+          var earlyText = "";
+          data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
+            var meeting = section.meetings[0];
+
+            if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
+              return true; // won't break if omitting true
+            } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
+              earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
+            }
+          });
+
+          // add 'full' warning
+          var fullText = "";
+          data.sections.some(function (section) {
+            if (section.openSeats > 0 && isLecture(section)) {
+              return true;
+            } else if (section == data.sections[data.sections.length - 1]) {
+              fullText = "<span class='full-warning'>Lectures are full</span>";
+            }
+          });
+
+          // add 'instructor consent' warning
+          var consentText = "";
+          data.sections.some(function (section) {
+            if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
+              return true;
+            } else if (section == data.sections[data.sections.length - 1]) {
+              consentText = "<span class='consent-warning'>Instructor consent required</span>";
+            }
+          });
+
+          tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + consentText + "</p>";
+        } else { // if it does have multiple topics, use old URL
+          tooltipHtml = formatDescription(data.description);
+        }
+        // update cache
+        updateCache(courseCode, "description", tooltipHtml);
+
+        //inject into tooltip
+        tooltip.html(tooltipHtml);
+      }).fail(function () { // if unable to get URL
+        console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
+      });
+    }
+    //expand to fit content
+    tooltip.css("width", "400");
+  }
+
+  //make visible
+  tooltip.css("display", "inline");
+}
+
+function hideTooltip(badge) {
+  $(badge).children().css("display", "none");
 }
 
 function isLecture(section) {

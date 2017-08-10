@@ -89,6 +89,10 @@ function showTooltip(badge) {
           // get course description
           var description = data.sections[0].description;
 
+          // get old number
+          var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
+          var oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
+
           // add 'early' warning
           var earlyText = "";
           data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
@@ -121,7 +125,7 @@ function showTooltip(badge) {
             }
           });
 
-          tooltipHtml = formatDescription(description) + "<p>" + fullText + earlyText + consentText + "</p>";
+          tooltipHtml = formatDescription(description) + oldNumberText + "<p>" + fullText + earlyText + consentText + "</p>";
         } else { // if it does have multiple topics, use old URL
           tooltipHtml = formatDescription(data.description);
         }
@@ -174,12 +178,17 @@ function getSubjectCode(elementId) {
 
 //e.g. ECON 101
 function getCourseCode(badge) {
+  var courseIndex = getCourseIndex(badge);
+
+  return getSubjectCode(badge) + getCourseNumber(courseIndex);
+}
+
+// specifies where the course is physically located
+function getCourseIndex(badge) {
   var parentId = $(badge).parent().parent().attr("id");
 
-  //get number at the end of ID (specifies course)
-  var courseIndex = parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
-
-  return getSubjectCode(parentId) + getCourseNumber(courseIndex);
+  //get number at the end of ID
+  return parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
 }
 
 function buildUrl(badge, multipleTopics) {

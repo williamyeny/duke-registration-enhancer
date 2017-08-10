@@ -208,13 +208,22 @@ function formatDescription(desc) {
   desc = partitionByKeyword(desc, "Prerequisite:");
   desc = partitionByKeyword(desc, "Instructors:");
   desc = partitionByKeyword(desc, "Prerequisites:");
-  return "<p>" + desc + "</p>";
+  return desc;
 }
 
+/* 
+  converts raw text to more organized HTML using a keyword to split
+  e.g. "This is a description. Instructor: Bob" => "<p>This is a description.<p><p><strong>Instructor</strong>: Bob</p>"
+*/
 function partitionByKeyword(text, keyword) {
   var index = text.indexOf(keyword);
   if (index != -1) {
     text = text.substring(0, index) + "</p><p><strong>" + text.substring(index, index + keyword.length) + "</strong>" + text.substring(index + keyword.length, text.length);
+  }
+
+  //add surrounding tags
+  if (text.substring(0, 3) != "<p>") {
+    text = "<p>" + text + "</p>";
   }
   return text;
 }

@@ -12,7 +12,7 @@ function dropDownClickListener(features) {
     var button = this;
 
     //run instantCollapse feature (js/instantCollapse.js)
-    if (features.instantCollapse.value) instantCollapse(button, e);
+    if (features.instantCollapse.enabled) instantCollapse(button, e);
 
   });
 }

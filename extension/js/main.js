@@ -5,37 +5,46 @@
 
 console.log("Duke Registration Enhancer running...");
 
-//get options
+//get extension settings
 chrome.storage.sync.get({  //default values
   features: {
     appearanceUpgrades: {
       name: "Appearance upgrades",
-      value: true
+      description: "Makes the registration page look neater and more modern.",
+      enabled: true
     },
     instantCollapse: {
       name: "Instant course collapse",
-      value: true
+      description: "Instantly collapses courses when clicking the dropdown button",
+      enabled: true
     },
     infoPreview: {
       name: "Info preview",
-      value: true
+      enabled: true,
+      description: "Preview information about courses at a glance!",
+      settings: {
+        clickView: {
+          name: "Click instead of hover",
+          enabled: false
+        }
+      }
     },
     rmpLink: {
       name: "RateMyProfessors link",
-      value: true
+      enabled: true
     }
   }
-}, function (options) {
+}, function (extensionSettings) {
   console.log("Duke Registration Enhancer features loaded: ");
-  var features = options.features;
+  var features = extensionSettings.features;
   for (feature in features) {
-    console.log("  " + features[feature].name + ": " + features[feature].value);
+    console.log("  " + features[feature].name + ": " + features[feature].enabled);
   }
 
-  //sync options
-  chrome.storage.sync.set(options);
+  //sync extensionSettings
+  chrome.storage.sync.set(extensionSettings);
 
   //initialize
-  if (features.appearanceUpgrades.value) injectCss();
+  if (features.appearanceUpgrades.enabled) injectCss();
   injectJs(features);
 });

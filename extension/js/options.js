@@ -5,17 +5,37 @@
 
 // Saves options to chrome.storage.sync.
 function save_options() {
-  var jsonString = "{\"features\":{"
-  var inputs = document.getElementsByTagName("input");
-  console.log(inputs);
+  var features = {};
+  var inputs = document.getElementsByClassName("feature");
+
   for (i = 0; i < inputs.length; i++) {
-    jsonString += "\"" + inputs[i].id + "\": { \"name\": \"" + inputs[i].name + "\", \"value\": " + inputs[i].checked + "},";
+    var currentInput = inputs[i].firstChild;
+    features[currentInput.id] = {
+      name: currentInput.name,
+      enabled: currentInput.checked
+    }
   }
-  jsonString = jsonString.slice(0, -1) + "}}"; //remove comma and add closing brackets
-  console.log(jsonString);
 
+  var settings = document.getElementsByClassName("feature-setting");
 
-  chrome.storage.sync.set(JSON.parse(jsonString), function () {
+  for (i = 0; i < settings.length; i++) {
+    var currentSetting = settings[i].firstChild;
+    var feature = currentSetting.getAttribute("feature");
+    var settingName = currentSetting.name;
+    var settingId = currentSetting.id;
+    var settingChecked = currentSetting.checked;
+
+    if (!("settings" in features[feature])) {
+      features[feature].settings = {};
+    }
+
+    features[feature].settings[settingId] = {
+      name: settingName,
+      enabled: settingChecked
+    }
+  } 
+
+  chrome.storage.sync.set({features:features}, function () {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
     status.textContent = 'Options saved.';
@@ -32,11 +52,18 @@ function restore_options() {
 
     //generate HTML
     var featuresHtml;
-    var features = options.features;
+    var features = options.features; console.log(JSON.stringify(features));
     if (Object.keys(options).length) {
       featuresHtml = "";
       for (feature in features) {
-        featuresHtml += "<label><input type=\"checkbox\" id=\"" + feature + "\" " + (features[feature].value ? "checked" : "") + " name=\"" + features[feature].name + "\">" + features[feature].name + "</label><br>";
+        // featuresHtml += "<label><input type='checkbox' class='feature' id='" + feature + "' " + (features[feature].value ? "checked" : "") + " name='" + features[feature].name + "'>" + features[feature].name + "</label><br>";
+        featuresHtml += generateInputHtml(feature, features[feature].name, features[feature].enabled);
+        
+        if ("settings" in features[feature]) { // checks if feature has additional settings
+          for (setting in features[feature].settings) {
+            featuresHtml += generateInputHtml( setting, features[feature].settings[setting].name, features[feature].settings[setting].enabled, feature);
+          }
+        }
       }
     } else {
       featuresHtml = "Oops! No settings were found. Try opening DukeHub's registration page to generate them!";
@@ -44,6 +71,11 @@ function restore_options() {
     }
     document.getElementById("options").innerHTML = featuresHtml;
   });
+}
+
+// generates the HTML of a setting, sorry for 1 liner lol
+function generateInputHtml(id, name, checked, parentFeature = "") {
+  return "<label class='feature" + (parentFeature ? "-setting" : "") +"'><input type='checkbox' " + (parentFeature ? "feature='" + parentFeature + "'" : "") + " id='" + id + "' " + (checked ? "checked" : "") + " name='" + name + "'>" + name + "</label><br>";
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);

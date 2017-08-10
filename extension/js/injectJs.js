@@ -31,10 +31,10 @@ function injectJs(features) {
             dropDownClickListener(features);
 
             // add RateMyProfessors link
-            if (features.rmpLink.value) rmpLink(mutations);
+            if (features.rmpLink.enabled) rmpLink(mutations);
 
             // info preview
-            if (features.infoPreview.value) infoPreview(mutations);
+            if (features.infoPreview.enabled) infoPreview(mutations);
 
         });
         observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added

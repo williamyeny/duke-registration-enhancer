@@ -22,6 +22,7 @@ function infoPreview(mutations, settings) {
 
         //add listeners
         if (settings.clickView.enabled) {
+          iframeContents.find("div[class$='-info']").css("cursor","pointer");
           addDescriptionClick(); // passes in defaultToolTip to check if it has not been loaded
         } else {
           addDescriptionHover();

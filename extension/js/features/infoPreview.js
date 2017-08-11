@@ -23,9 +23,9 @@ function infoPreview(mutations, settings) {
         //add listeners
         if (settings.clickView.enabled) {
           iframeContents.find("div[class$='-info']").css("cursor","pointer");
-          addDescriptionClick(); // passes in defaultToolTip to check if it has not been loaded
+          addDescriptionClick(settings); // passes in defaultToolTip to check if it has not been loaded
         } else {
-          addDescriptionHover();
+          addDescriptionHover(settings);
         }
         
       }
@@ -34,9 +34,9 @@ function infoPreview(mutations, settings) {
   });
 }
 
-function addDescriptionHover() {
+function addDescriptionHover(settings) {
   iframeContents.find(".description-info").mouseover(function () {
-    showTooltip(this);
+    showTooltip(this, settings);
   });
 
   iframeContents.find(".description-info").mouseout(function () {
@@ -44,7 +44,7 @@ function addDescriptionHover() {
   });
 }
 
-function addDescriptionClick() {
+function addDescriptionClick(settings) {
   //hiding tooltips on click
   iframeContents.find("body, .PABACKGROUNDINVISIBLEWBO").on("click", function (e) { // for some reason, selecting body doesnt include PABACKGROUNDINVISIBLEWBO
     var isBadge = $(e.target).attr("class") && $(e.target).attr("class").includes("-info");
@@ -56,12 +56,12 @@ function addDescriptionClick() {
 
     //show tooltips if there is nothing to hide
     if (isBadge){
-      showTooltip(e.target);
+      showTooltip(e.target, settings);
     }
   });
 }
 
-function showTooltip(badge) {
+function showTooltip(badge, settings) {
   var tooltip = $(badge).children();
 
   //populate description                    
@@ -90,9 +90,11 @@ function showTooltip(badge) {
           var description = data.sections[0].description;
 
           // get old number
-          var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
-          var oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
-
+          var oldNumberText = ""
+          if (settings.showOldNumber.enabled) {
+            var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
+            oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
+          }
           // add 'early' warning
           var earlyText = "";
           data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break

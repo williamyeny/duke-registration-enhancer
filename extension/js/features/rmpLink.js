@@ -44,7 +44,8 @@ function rmpLink(mutations) {
             // console.info(url)
             // var result = pname.link(url);
             // $(this).innerHTML = result;  	
-            //add rest of html
+            
+            //add link rest of html (improve to be the text itself)
             var ratingHtml = "<div class='prof-wrapper'><a target='_blank' href='" + url + "' class='color-" + "green" + " rating'>" + " Check for RMP Rating" + "</a></div>";
             //inject to HTML
             span.parent().after(ratingHtml); //puts it into td

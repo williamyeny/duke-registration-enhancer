@@ -43,6 +43,17 @@ div[class$='-tooltip'] {
   z-index: 100;
   display: none;
 }
+div[class$='-tooltip']:after {
+  content:' ';
+  border-style: solid;
+  border-color:  transparent rgba(0,0,0,0.6) transparent transparent ;
+  border-width: 4px;
+  border-style: solid;
+  position: absolute;
+  right:100%;
+  top:6px;
+
+}
 span[class$='-warning'] {
   padding:2px 5px;
   border-radius: 3px;

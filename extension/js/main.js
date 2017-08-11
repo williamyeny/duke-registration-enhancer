@@ -50,6 +50,6 @@ chrome.storage.sync.get({  //default values
   chrome.storage.sync.set(extensionSettings);
 
   //initialize
-  if (features.appearanceUpgrades.enabled) injectCss();
+  injectCss(features);
   injectJs(features);
 });

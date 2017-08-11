@@ -15,6 +15,7 @@
   ],
   "web_accessible_resources":[
     "css/restyle.css",
+    "css/infoPreview.css",
 
     "js/vendor/jquery-3.2.1.min.js"
   ],

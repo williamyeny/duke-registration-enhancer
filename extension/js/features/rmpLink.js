@@ -42,8 +42,15 @@ function rmpLink(mutations) {
             // here's the sample URL I got: http://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Duke+University&schoolID=1350&query=Connel+Fullenkamp
             var url = "http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=duke+university&queryoption=HEADER&query=" + firstName + "+" + lastName + "&facetSearch=true"
             // console.info(url)
-            var result = pname.link(url);
-            // document.getElementById('DU_DERIVED_SS_DESCR100_2').innerHTML = result;  	
+            // var result = pname.link(url);
+            // $(this).innerHTML = result;  	
+            //add rest of html
+            var ratingHtml = "<div class='prof-wrapper'><a target='_blank' href='" + url + "' class='color-" + "green" + " rating'>" + " Check for RMP Rating" + "</a></div>";
+            //inject to HTML
+            span.parent().after(ratingHtml); //puts it into td
+            //move span to wrapper
+            span.prependTo(span.parent().parent().children(".prof-wrapper"));
+
           });
         }
       }

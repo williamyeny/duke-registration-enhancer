@@ -35,6 +35,7 @@ chrome.storage.sync.get({  //default values
     },
     rmpLink: {
       name: "RateMyProfessors link",
+      description: "Links to professor's potentially available RateMyProfessors profile.",
       enabled: true
     }
   }

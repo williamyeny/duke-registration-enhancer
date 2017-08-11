@@ -26,6 +26,10 @@ chrome.storage.sync.get({  //default values
         clickView: {
           name: "Click instead of hover",
           enabled: false
+        },
+        showOldNumber: {
+          name: "Show old course numbers in preview",
+          enabled: false
         }
       }
     },

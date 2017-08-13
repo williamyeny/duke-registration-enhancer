@@ -9,7 +9,7 @@
 var iframeContents;
 var cache = {};
 
-function injectJs(features) {
+function injectJs() {
 
     // enable schedule builder
     console.log("Logging into Schedule Builder...");
@@ -28,13 +28,13 @@ function injectJs(features) {
             We need to add the click listener with every iframe DOM change because the
             change removes the listener
             */
-            dropDownClickListener(features);
+            dropDownClickListener();
 
             // add RateMyProfessors link
             if (features.rmpLink.enabled) rmpLink(mutations);
 
             // info preview
-            if (features.infoPreview.enabled) infoPreview(mutations, features.infoPreview.settings);
+            if (features.infoPreview.enabled) infoPreview(mutations);
 
         });
         observer.observe($(this).contents().find("body")[0], { childList: true, subtree: true }); //observe the body of the iframe when any elements are added

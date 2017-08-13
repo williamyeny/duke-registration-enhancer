@@ -71,3 +71,11 @@ span[class^='full'] {
 span[class^='consent'] {
   background-color:#2366d1;
 }
+
+/* remove "OLD NUMBER" */
+div[id^='win0divDERIVED_SSS_BCC_DESCRlbl'] {
+  display:none;
+}
+span[id^='DERIVED_SSS_BCC_DESCR'] {
+  display:none;
+}

@@ -6,15 +6,12 @@
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 const defaultTooltip = "Loading...";
 
-function infoPreview(mutations, settings) {
+function infoPreview(mutations) {
 
   mutations.forEach(function (mutation) {
     //go through each element that was changed
     mutation.addedNodes.forEach(function (node) {
       if (node.id == "ACE_width") {
-
-        //remove old number
-        iframeContents.find("span[id^='DERIVED_SSS_BCC_DESCR']").css("display", "none");
 
         //add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
@@ -22,13 +19,11 @@ function infoPreview(mutations, settings) {
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + synopsisHtml + "</div>");
 
         //add listeners
-        if (settings.clickView.enabled) {
+        if (features.infoPreview.settings.clickView.enabled) {
           iframeContents.find("div[class$='-info']").css("cursor","pointer");
-          addClick("description", settings); // passes in defaultToolTip to check if it has not been loaded
-          addClick("synopsis", settings);
+          addClick();
         } else {
-          addHover("description", settings);
-          addHover("synopsis", settings);
+          addHover();
         }
         
       }
@@ -37,34 +32,34 @@ function infoPreview(mutations, settings) {
   });
 }
 
-function addHover(badgeName, settings) { //badgeName: e.g. "description", "synopsis"
-  iframeContents.find("." + badgeName + "-info").mouseover(function () {
-    showTooltip(this, badgeName, settings);
+function addHover(badgeName) { //badgeName: e.g. "description", "synopsis"
+  iframeContents.find("div[class$='-info']").mouseover(function () {
+    showTooltip(this, $(this).attr("class").replace("-info",""));
   });
 
-  iframeContents.find("." + badgeName + "-info").mouseout(function () {
+  iframeContents.find("div[class$='-info']").mouseout(function () {
     hideTooltip(this);
   });
 }
 
-function addClick(badgeName, settings) {
+function addClick() {
   //hiding tooltips on click
   iframeContents.find("body, .PABACKGROUNDINVISIBLEWBO").on("click", function (e) { // for some reason, selecting body doesnt include PABACKGROUNDINVISIBLEWBO
     var isBadge = $(e.target).attr("class") && $(e.target).attr("class").includes("-info");
     if (isBadge && $(e.target).children().css("display") != "none") { // if clicked on badge and tooltip is visible...
       hideTooltip(e.target); // hide that tooltip
     } else if(!isBadge && !$(e.target).parent("div[class$='-info']").length) { // else, if not clicked on any badge + its contents...g
-      hideTooltip(iframeContents.find("." + badgeName + "-info")); // hide all tooltips
+      hideTooltip(iframeContents.find("div[class$='-info']")); // hide all tooltips
     } else 
 
     //show tooltips if there is nothing to hide
     if (isBadge){
-      showTooltip(e.target, badgeName, settings);
+      showTooltip(e.target, $(e.target).attr("class").replace("-info",""));
     }
   });
 }
 
-function showTooltip(badge, badgeName, settings) {
+function showTooltip(badge, badgeName) {
   var tooltip = $(badge).children();
 
   //populate description                    
@@ -72,12 +67,11 @@ function showTooltip(badge, badgeName, settings) {
 
     //check if course exists in cache already
     var courseCode = getCourseCode(badge);
-    console.log("showTooltip courseCode: " + courseCode);
     if (courseCode in cache && badgeName in cache[courseCode]) { // if it is in cache already....
       tooltip.html(cache[courseCode][badgeName]); // get the data of the badge from the cache
     } else { // course not in cache -- do initial set of tooltip
       if (badgeName == "description") {
-        setDescriptionTooltip(badge, tooltip, settings);
+        setDescriptionTooltip(badge, tooltip);
       } else if (badgeName == "synopsis") {
         setSynopsisTooltip(badge, tooltip);
       }
@@ -94,7 +88,7 @@ function hideTooltip(badge) {
   $(badge).children().css("display", "none");
 }
 
-function setDescriptionTooltip(badge, tooltip, settings) {
+function setDescriptionTooltip(badge, tooltip) {
   //check if it has multiple topics
   var multipleTopics = false;
   if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
@@ -112,7 +106,7 @@ function setDescriptionTooltip(badge, tooltip, settings) {
 
       // get old number
       var oldNumberText = ""
-      if (settings.showOldNumber.enabled) {
+      if (features.infoPreview.settings.showOldNumber.enabled) {
         var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
         oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
       }

@@ -3,7 +3,7 @@
     Desc: Injects CSS into the an embedded iframe for styling elements.
 */
 
-function injectCss(features) {
+function injectCss() {
   if (features.appearanceUpgrades.enabled) {
     addCssToHead("restyle.css", "iframe");
   }

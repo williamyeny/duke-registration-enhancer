@@ -5,6 +5,8 @@
 
 console.log("Duke Registration Enhancer running...");
 
+var features;
+
 //get extension settings
 chrome.storage.sync.get({  //default values
   features: {
@@ -39,17 +41,18 @@ chrome.storage.sync.get({  //default values
       enabled: true
     }
   }
-}, function (extensionSettings) {
+}, function (s) {
   console.log("Duke Registration Enhancer features loaded: ");
-  var features = extensionSettings.features;
+
+  features = s.features;
   for (feature in features) {
     console.log("  " + features[feature].name + ": " + features[feature].enabled);
   }
 
-  //sync extensionSettings
-  chrome.storage.sync.set(extensionSettings);
+  //update options in case default options are created
+  chrome.storage.sync.set(s);
 
   //initialize
-  injectCss(features);
-  injectJs(features);
+  injectCss();
+  injectJs();
 });

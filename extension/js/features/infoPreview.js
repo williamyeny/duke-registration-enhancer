@@ -18,14 +18,17 @@ function infoPreview(mutations, settings) {
 
         //add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
-        iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
+        var synopsisHtml = "<div class='synopsis-info'>Synopsis<div class='synopsis-tooltip'><p>" + defaultTooltip + "</p></div></div>";
+        iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + synopsisHtml + "</div>");
 
         //add listeners
         if (settings.clickView.enabled) {
           iframeContents.find("div[class$='-info']").css("cursor","pointer");
-          addDescriptionClick(settings); // passes in defaultToolTip to check if it has not been loaded
+          addClick("description", settings); // passes in defaultToolTip to check if it has not been loaded
+          addClick("synopsis", settings);
         } else {
-          addDescriptionHover(settings);
+          addHover("description", settings);
+          addHover("synopsis", settings);
         }
         
       }
@@ -34,34 +37,34 @@ function infoPreview(mutations, settings) {
   });
 }
 
-function addDescriptionHover(settings) {
-  iframeContents.find(".description-info").mouseover(function () {
-    showTooltip(this, settings);
+function addHover(badgeName, settings) { //badgeName: e.g. "description", "synopsis"
+  iframeContents.find("." + badgeName + "-info").mouseover(function () {
+    showTooltip(this, badgeName, settings);
   });
 
-  iframeContents.find(".description-info").mouseout(function () {
+  iframeContents.find("." + badgeName + "-info").mouseout(function () {
     hideTooltip(this);
   });
 }
 
-function addDescriptionClick(settings) {
+function addClick(badgeName, settings) {
   //hiding tooltips on click
   iframeContents.find("body, .PABACKGROUNDINVISIBLEWBO").on("click", function (e) { // for some reason, selecting body doesnt include PABACKGROUNDINVISIBLEWBO
     var isBadge = $(e.target).attr("class") && $(e.target).attr("class").includes("-info");
     if (isBadge && $(e.target).children().css("display") != "none") { // if clicked on badge and tooltip is visible...
       hideTooltip(e.target); // hide that tooltip
     } else if(!isBadge && !$(e.target).parent("div[class$='-info']").length) { // else, if not clicked on any badge + its contents...g
-      hideTooltip(iframeContents.find(".description-info")); // hide all tooltips
+      hideTooltip(iframeContents.find("." + badgeName + "-info")); // hide all tooltips
     } else 
 
     //show tooltips if there is nothing to hide
     if (isBadge){
-      showTooltip(e.target, settings);
+      showTooltip(e.target, badgeName, settings);
     }
   });
 }
 
-function showTooltip(badge, settings) {
+function showTooltip(badge, badgeName, settings) {
   var tooltip = $(badge).children();
 
   //populate description                    
@@ -69,76 +72,15 @@ function showTooltip(badge, settings) {
 
     //check if course exists in cache already
     var courseCode = getCourseCode(badge);
-    if (courseCode in cache) {
-      tooltip.html(cache[courseCode].description);
-    } else { // course not in cache -- get course desc from API
-
-      //check if it has multiple topics
-      var multipleTopics = false;
-      if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
-        multipleTopics = true;
+    console.log("showTooltip courseCode: " + courseCode);
+    if (courseCode in cache && badgeName in cache[courseCode]) { // if it is in cache already....
+      tooltip.html(cache[courseCode][badgeName]); // get the data of the badge from the cache
+    } else { // course not in cache -- do initial set of tooltip
+      if (badgeName == "description") {
+        setDescriptionTooltip(badge, tooltip, settings);
+      } else if (badgeName == "synopsis") {
+        setSynopsisTooltip(badge, tooltip);
       }
-      var courseUrl = buildUrl(badge, multipleTopics);
-
-      console.log("request sent...");
-      $.getJSON(courseUrl, function (data) {
-        console.log(JSON.stringify(data));
-
-        var tooltipHtml;
-        if (!multipleTopics) { // if it doesn't have multiple topics...
-          // get course description
-          var description = data.sections[0].description;
-
-          // get old number
-          var oldNumberText = ""
-          if (settings.showOldNumber.enabled) {
-            var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
-            oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
-          }
-          // add 'early' warning
-          var earlyText = "";
-          data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
-            var meeting = section.meetings[0];
-
-            if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
-              return true; // won't break if omitting true
-            } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
-              earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
-            }
-          });
-
-          // add 'full' warning
-          var fullText = "";
-          data.sections.some(function (section) {
-            if (section.openSeats > 0 && isLecture(section)) {
-              return true;
-            } else if (section == data.sections[data.sections.length - 1]) {
-              fullText = "<span class='full-warning'>Lectures are full</span>";
-            }
-          });
-
-          // add 'instructor consent' warning
-          var consentText = "";
-          data.sections.some(function (section) {
-            if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
-              return true;
-            } else if (section == data.sections[data.sections.length - 1]) {
-              consentText = "<span class='consent-warning'>Instructor consent required</span>";
-            }
-          });
-
-          tooltipHtml = formatDescription(description) + oldNumberText + "<p>" + fullText + earlyText + consentText + "</p>";
-        } else { // if it does have multiple topics, use old URL
-          tooltipHtml = formatDescription(data.description);
-        }
-        // update cache
-        updateCache(courseCode, "description", tooltipHtml);
-
-        //inject into tooltip
-        tooltip.html(tooltipHtml);
-      }).fail(function () { // if unable to get URL
-        console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
-      });
     }
     //expand to fit content
     tooltip.css("width", "400");
@@ -152,6 +94,78 @@ function hideTooltip(badge) {
   $(badge).children().css("display", "none");
 }
 
+function setDescriptionTooltip(badge, tooltip, settings) {
+  //check if it has multiple topics
+  var multipleTopics = false;
+  if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
+    multipleTopics = true;
+  }
+  var courseUrl = buildUrl(badge, multipleTopics);
+
+  console.log("request sent...");
+  $.getJSON(courseUrl, function (data) {
+
+    var tooltipHtml;
+    if (!multipleTopics) { // if it doesn't have multiple topics...
+      // get course description
+      var description = data.sections[0].description;
+
+      // get old number
+      var oldNumberText = ""
+      if (settings.showOldNumber.enabled) {
+        var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
+        oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
+      }
+      // add 'early' warning
+      var earlyText = "";
+      data.sections.some(function (section) { //https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
+        var meeting = section.meetings[0];
+
+        if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
+          return true; // won't break if omitting true
+        } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
+          earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
+        }
+      });
+
+      // add 'full' warning
+      var fullText = "";
+      data.sections.some(function (section) {
+        if (section.openSeats > 0 && isLecture(section)) {
+          return true;
+        } else if (section == data.sections[data.sections.length - 1]) {
+          fullText = "<span class='full-warning'>Lectures are full</span>";
+        }
+      });
+
+      // add 'instructor consent' warning
+      var consentText = "";
+      data.sections.some(function (section) {
+        if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
+          return true;
+        } else if (section == data.sections[data.sections.length - 1]) {
+          consentText = "<span class='consent-warning'>Instructor consent required</span>";
+        }
+      });
+
+      tooltipHtml = formatDescription(description) + oldNumberText + "<p>" + fullText + earlyText + consentText + "</p>";
+    } else { // if it does have multiple topics, use old URL
+      tooltipHtml = formatDescription(data.description);
+    }
+    // update cache
+    updateCache(getCourseCode(badge), "description", tooltipHtml);
+    console.log(cache);
+
+    //inject into tooltip
+    tooltip.html(tooltipHtml);
+  }).fail(function () { // if unable to get URL
+    console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
+  });
+}
+
+function setSynopsisTooltip(badge, tooltip) {
+  tooltip.html("<p>it's lit bro lol " + getCourseCode(badge) + "</p>");
+}
 function isLecture(section) {
   return section.component == "LEC" || section.component == "SEM";
 }
@@ -163,7 +177,7 @@ function getCourseNumber(index) {
 }
 
 //e.g. ECON
-function getSubjectCode(elementId) {
+function getSubjectCode(elementId) { // note: a bit hacky
   var subjectCode;
 
   //loops through all cells containing subjects
@@ -172,7 +186,7 @@ function getSubjectCode(elementId) {
     if ($(this).html().includes(elementId)) {
       //grabs subject code by finding previous cell's value
       subjectCode = $(this).prev().find("span[id^='SSR_CLSRCH_SUBJ_SUBJECT']").html();
-      return false; //break out of each function
+      return false; //break out of "each" function
     }
   });
   return subjectCode;
@@ -181,16 +195,20 @@ function getSubjectCode(elementId) {
 //e.g. ECON 101
 function getCourseCode(badge) {
   var courseIndex = getCourseIndex(badge);
+  var parentId = getCourseHtmlId(badge);
 
-  return getSubjectCode(badge) + getCourseNumber(courseIndex);
+  return getSubjectCode(parentId) + getCourseNumber(courseIndex);
 }
 
 // specifies where the course is physically located
 function getCourseIndex(badge) {
-  var parentId = $(badge).parent().parent().attr("id");
-
   //get number at the end of ID
-  return parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
+  return getCourseHtmlId(badge).replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
+}
+
+// returns the HTML ID of a course which holds the specified badge
+function getCourseHtmlId(badge) { 
+  return $(badge).parent().parent().attr("id");
 }
 
 function buildUrl(badge, multipleTopics) {
@@ -198,17 +216,14 @@ function buildUrl(badge, multipleTopics) {
 
   //get term
   var term = iframeContents.find("#DU_SEARCH_WRK_STRM :selected").text();
+  //replace spaces with "%20" for URL usage
   var termEncoded = term.replace(/\s/g, '%20');
 
-  var parentId = $(badge).parent().parent().attr("id");
-
-  //get number at the end of ID (specifies course)
-  var courseIndex = parentId.replace("win0divDU_SS_SUBJ_CAT_DESCR$", "");
   //get courseNumber
-  var courseNumber = getCourseNumber(courseIndex);
+  var courseNumber = getCourseNumber(getCourseIndex(badge));
 
   //get subject
-  var subjectCode = getSubjectCode(parentId);
+  var subjectCode = getSubjectCode(getCourseHtmlId(badge));
 
   //build URL
   return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber + (multipleTopics ? "" : "/regblocks");

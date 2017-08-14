@@ -20,7 +20,9 @@ div[class$='-info'] {
   color:white;
 }
 div[class$='-info']:hover {
-  background-color:#dadada;
+  background-color:rgba(0,0,0,0.8);
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 div[class^='description'] {
   background-color:#01518e;
@@ -35,26 +37,16 @@ div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely 
 /* tooltip for the above badges */
 div[class$='-tooltip'] {
   position: absolute;
-  margin-left: 15px;
+  margin-left: 10px;
   padding: 0px 13px;
-  border-radius: 3px;
-  top: 0px;
+  border-radius: 0px 3px 3px 3px;
+  top: -3px;
   color: white;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.8);
   z-index: 100;
   display: none;
 }
-div[class$='-tooltip']:after {
-  content:' ';
-  border-style: solid;
-  border-color:  transparent rgba(0,0,0,0.6) transparent transparent ;
-  border-width: 4px;
-  border-style: solid;
-  position: absolute;
-  right:100%;
-  top:6px;
 
-}
 span[class$='-warning'] {
   padding:2px 5px;
   border-radius: 3px;

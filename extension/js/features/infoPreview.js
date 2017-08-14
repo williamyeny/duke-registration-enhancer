@@ -94,7 +94,7 @@ function setDescriptionTooltip(badge, tooltip) {
   if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
     multipleTopics = true;
   }
-  var courseUrl = buildUrl(badge, multipleTopics);
+  var courseUrl = buildDescriptionUrl(badge, multipleTopics);
 
   console.log("request sent...");
   $.getJSON(courseUrl, function (data) {
@@ -148,7 +148,6 @@ function setDescriptionTooltip(badge, tooltip) {
     }
     // update cache
     updateCache(getCourseCode(badge), "description", tooltipHtml);
-    console.log(cache);
 
     //inject into tooltip
     tooltip.html(tooltipHtml);
@@ -158,7 +157,8 @@ function setDescriptionTooltip(badge, tooltip) {
 }
 
 function setSynopsisTooltip(badge, tooltip) {
-  tooltip.html("<p>it's lit bro lol " + getCourseCode(badge) + "</p>");
+  var courseUrl = buildSynopsisUrl(badge);
+  tooltip.html("<p>"+courseUrl+"</p>");
 }
 function isLecture(section) {
   return section.component == "LEC" || section.component == "SEM";
@@ -205,7 +205,7 @@ function getCourseHtmlId(badge) {
   return $(badge).parent().parent().attr("id");
 }
 
-function buildUrl(badge, multipleTopics) {
+function buildDescriptionUrl(badge, multipleTopics) {
   //sample URL: https://duke.collegescheduler.com/api/terms/2017%20Fall%20Term/subjects/AAAS/courses/103/regblocks
 
   //get term
@@ -213,7 +213,7 @@ function buildUrl(badge, multipleTopics) {
   //replace spaces with "%20" for URL usage
   var termEncoded = term.replace(/\s/g, '%20');
 
-  //get courseNumber
+  //get course number
   var courseNumber = getCourseNumber(getCourseIndex(badge));
 
   //get subject
@@ -221,6 +221,34 @@ function buildUrl(badge, multipleTopics) {
 
   //build URL
   return "https://duke.collegescheduler.com/api/terms/" + termEncoded + "/subjects/" + subjectCode + "/courses/" + courseNumber + (multipleTopics ? "" : "/regblocks");
+}
+
+function buildSynopsisUrl(badge) {
+  //sample URL: https://ihprd.siss.duke.edu/psp/IHPRD01_1/EMPLOYEE/SA/c/DU_SELFSERVICE.DU_SYNOPSIS_ENTRY.GBL?CATALOG_NBR=%20%2089S&CLASS_SECTION=01&SESSION_CODE=1&STRM=1620&SUBJECT=AAAS
+
+  //get term
+  var term = iframeContents.find("#DU_SEARCH_WRK_STRM :selected").val();
+
+  //get course number
+  var courseNumber = getCourseNumber(getCourseIndex(badge));
+  //prepends "%20" based on how many digits are in the URL, e.g. 89S -> %20%2089S, 101 -> %20101
+  var courseNumberEncoded = "%20".repeat(4 - courseNumber.replace(/[^0-9]/g,"").length) + courseNumber;
+
+  //generate class section number based on type of course
+  var classSection = "01"; // most courses have sections of 01...
+  var lastChar = courseNumber[courseNumber.length - 1]; //...however, courses suffixed with "L" or "D" have sections of 001
+  if (lastChar == "L" || lastChar == "D") { 
+    classSection = "001";
+  }
+
+  //get session code
+  var sessionCode = "1"; //all the courses seem to have 1
+
+  //get subject
+  var subjectCode = getSubjectCode(getCourseHtmlId(badge));
+
+  //build URL
+  return "https://ihprd.siss.duke.edu/psp/IHPRD01_1/EMPLOYEE/SA/c/DU_SELFSERVICE.DU_SYNOPSIS_ENTRY.GBL?CATALOG_NBR=" + courseNumberEncoded + "&CLASS_SECTION=" + classSection + "&SESSION_CODE=" + sessionCode + "&STRM=" + term + "&SUBJECT=" + subjectCode;
 }
 
 function formatDescription(desc) {

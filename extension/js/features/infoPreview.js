@@ -158,6 +158,10 @@ function setDescriptionTooltip(badge, tooltip) {
 
 function setSynopsisTooltip(badge, tooltip) {
   var courseUrl = buildSynopsisUrl(badge);
+  $.get(courseUrl, function (data) {
+    var synopsisHtml = $(data).find("#ptifrmtgtframe").contents().find("div[id^='win8divDU_SYNOPSIS_TBL_DU_CRSE_SYNOPSIS']").html();
+    console.log(data);
+  });
   tooltip.html("<p>"+courseUrl+"</p>");
 }
 function isLecture(section) {

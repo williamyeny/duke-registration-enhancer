@@ -58,16 +58,20 @@ function addClick() {
   });
 }
 
-function showTooltip(badge, badgeName) {
+function showTooltip(badge, badgeName) { // badgeName is "description", "synopsis" etc
   var tooltip = $(badge).children();
+  var courseCode = getCourseCode(badge);
+
+  // check cache to see the current course's info is outdated
+  if (expireCacheEntry(courseCode, badgeName)) {
+    tooltip.children().html(defaultTooltip); // if so, clear tooltip
+  }
 
   //populate description                    
   if (tooltip.children().html() == defaultTooltip) {
-
-    //check if course exists in cache already
-    var courseCode = getCourseCode(badge);
+    
     if (courseCode in cache && badgeName in cache[courseCode]) { // if it is in cache already....
-      tooltip.html(cache[courseCode][badgeName]); // get the data of the badge from the cache
+      tooltip.html(cache[courseCode][badgeName].value); // get the data of the badge from the cache
     } else { // course not in cache -- do initial set of tooltip
       if (badgeName == "description") {
         setDescriptionTooltip(badge, tooltip);
@@ -91,6 +95,8 @@ function setDescriptionTooltip(badge, tooltip) {
   if ($(badge).parent().parent().parent().parent().next().find("div[id^='win0divDU_DERIVED_HTMLAREA1']").length) {
     multipleTopics = true;
   }
+
+  // get URL
   var courseUrl = buildDescriptionUrl(badge, multipleTopics);
 
   console.log("request sent...");
@@ -242,10 +248,35 @@ function partitionByKeyword(text, keyword) {
   return text;
 }
 
-function updateCache(courseCode, cacheKey, cacheValue) {
-  if (courseCode in cache) {                  // if exists...
-    cache[courseCode][cacheKey] = cacheValue; // update property
-  } else {
-    cache[courseCode] = { [cacheKey]: cacheValue }; // else, create a new course hash with that property
+function updateCache(courseCode, badgeName, badgeValue) {
+  var timestamp = Date.now(); //time stamp
+  if (courseCode in cache) {  // if course exists...
+    if (badgeName in cache[courseCode]) { // if cacheKey exists in course
+      cache[courseCode][badgeName].value = badgeValue; // update property
+      cache[courseCode][badgeName].timestamp = timestamp;
+    } else {
+      cache[courseCode][badgeName] = {value: badgeValue, timestamp: timestamp};
+    }
+  } else { // if course doesn't exist, create a new course hash with that property
+    cache[courseCode] = { 
+      [badgeName]: {
+        value: badgeValue, 
+        timestamp: timestamp 
+      }
+    }; 
   }
+
+  // upload/sync local cache -> cloud cache
+  chrome.storage.sync.set({
+    cache: {
+      [courseCode]: {
+        [badgeName]: {
+          value: badgeValue, 
+          timestamp: timestamp 
+        }
+      }
+    }
+  }); 
+
+  console.log(cache);
 }

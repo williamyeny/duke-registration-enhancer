@@ -7,7 +7,6 @@
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
 var iframeContents;
-var cache = {};
 
 function injectJs() {
 
@@ -16,6 +15,8 @@ function injectJs() {
     $.get("https://csprd.siss.duke.edu/psc/CSPRD01/EMPLOYEE/SA/c/SA_LEARNER_SERVICES_2.SSR_SSENRL_CART.GBL?page=DU_COLLSCHD_LAUNCH", function (data) {
         console.log("Successfully logged into Schedule Builder!");
     });
+
+    // get cache
 
     //Runs when the main registration window loads
     $("#ptifrmtgtframe").on("load", function () {

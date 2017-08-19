@@ -79,7 +79,6 @@ function expireEntireCache() {
 
 // removes specified course's information if outdated
 function expireCacheEntry(courseCode, badgeName) {
-  console.log(courseCode + " " + badgeName);
   try {  
     if (cache[courseCode][badgeName].timestamp + cacheLifetime < Date.now()) {
       // remove entry

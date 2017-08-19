@@ -64,7 +64,7 @@ function showTooltip(badge, badgeName) { // badgeName is "description", "synopsi
 
   // check cache to see the current course's info is outdated
   if (expireCacheEntry(courseCode, badgeName)) {
-    tooltip.children().html(defaultTooltip); // if so, clear tooltip
+    tooltip.html("<p>" + defaultTooltip + "</p>"); // if so, clear tooltip
   }
 
   //populate description                    
@@ -277,6 +277,4 @@ function updateCache(courseCode, badgeName, badgeValue) {
       }
     }
   }); 
-
-  console.log(cache);
 }

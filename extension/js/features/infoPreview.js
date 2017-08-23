@@ -77,12 +77,16 @@ function showTooltip(badge, badgeName) { // badgeName is "description", "synopsi
         setDescriptionTooltip(badge, tooltip);
       }
     }
-    //expand to fit content
-    tooltip.css("width", "400");
   }
 
-  //make visible
+  // make visible
   tooltip.css("display", "inline");
+
+  // set size
+  if (tooltip.width() > 400) {
+    tooltip.css("white-space","normal");
+    tooltip.css("width","400px");
+  }
 }
 
 function hideTooltip(badge) {
@@ -154,6 +158,12 @@ function setDescriptionTooltip(badge, tooltip) {
 
     //inject into tooltip
     tooltip.html(tooltipHtml);
+
+    // set size
+    if (tooltip.width() > 400) {
+      tooltip.css("white-space","normal");
+      tooltip.css("width","400px");
+    }
   }).fail(function () { // if unable to get URL
     console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
   });

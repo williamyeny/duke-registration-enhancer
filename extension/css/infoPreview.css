@@ -50,6 +50,7 @@ div[class$='-tooltip'] {
   background-color: rgba(0,0,0,0.8);
   z-index: 100;
   display: none;
+  white-space: nowrap;
 }
 div[class$='-tooltip']::after { /* https://www.w3schools.com/css/css_tooltip.asp */
     content: " ";

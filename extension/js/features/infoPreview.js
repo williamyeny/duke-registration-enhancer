@@ -186,7 +186,14 @@ function setTimesTooltip(tooltip, data) { // sets times tooltip using data from 
       spanClass = "dis-times";
     }
     var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
-    tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime) + "</p>");
+    console.log(meeting.startTime);
+
+    var timesHtml = "No times available";
+    if (meeting.startTime > 0 && meeting.endTime > 0) {
+      timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
+    }
+    
+    tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>");
   });
 
   // update cache

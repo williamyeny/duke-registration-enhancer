@@ -19,6 +19,7 @@ div[class$='-info'] {
   border-radius: 3px;
   color:white;
   position:relative;
+  white-space: nowrap;
 }
 div[class$='-info']:hover {
   background-color:rgba(0,0,0,0.8);
@@ -32,7 +33,7 @@ div[class$='-info']:hover::after {
   width:5px;  
   height:20px;  
 }
-div[class^='description'] {
+div[class^='description'], div[class^='times'] {
   background-color:#01518e;
 }
 div[id^='win0divDU_SS_SUBJ_CAT_DESCR'] { /* needed to position badge absolutely */
@@ -86,4 +87,18 @@ div[id^='win0divDERIVED_SSS_BCC_DESCRlbl'] {
 }
 span[id^='DERIVED_SSS_BCC_DESCR'] {
   display:none;
+}
+
+/* times */
+span[class$="-times"] {
+  padding:2px 5px;
+  margin-right:10px;
+  border-radius:3px;
+}
+.lec-times {
+  background-color:#18b85e;
+}
+
+.dis-times {
+  background-color:#18b8ab;
 }

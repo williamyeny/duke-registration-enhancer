@@ -17,7 +17,8 @@ function infoPreview(mutations) {
 
         // add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
-        iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + "</div>");
+        var timesHtml = "<div class='times-info'>Days + Times<div class='times-tooltip'><p>" + defaultTooltip + "</p></div></div>";
+        iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + timesHtml + "</div>");
 
         // add listeners
         if (features.infoPreview.settings.clickView.enabled) {
@@ -75,7 +76,7 @@ function showTooltip(badge, badgeName) { // badgeName is "description", "synopsi
     if (courseCode in cache && badgeName in cache[courseCode]) { // if it is in cache already....
       tooltip.html(cache[courseCode][badgeName].value); // get the data of the badge from the cache
     } else { // course not in cache -- do initial set of tooltip
-      if (badgeName == "description") {
+      if (badgeName == "description" || badgeName == "times") { // we update both tooltips when either badge is activated
         setDescriptionTooltip(badge, tooltip);
       }
     }
@@ -160,6 +161,9 @@ function setDescriptionTooltip(badge, tooltip) {
 
     // inject into tooltip
     tooltip.html(tooltipHtml);
+    
+    // set times toolip
+    setTimesTooltip($(badge).parent().children(".times-info").children(), data);
 
     // set size
     if (tooltip.width() > 400) {
@@ -171,6 +175,41 @@ function setDescriptionTooltip(badge, tooltip) {
   });
 }
 
+function setTimesTooltip(tooltip, data) { // sets times tooltip using data from previously done request
+  tooltip.html("");
+
+  data.sections.forEach(function (section) { 
+    var meeting = section.meetings[0];
+
+    var spanClass = "lec-times";
+    if (!isLecture(section)) {
+      spanClass = "dis-times";
+    }
+    var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
+    tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime) + "</p>");
+  });
+
+  // update cache
+  updateCache(getCourseCode(tooltip.parent()), "times", tooltip.html());
+}
+
+function toStandardTime(time) { // converts and formats military time to standard time
+  time = time.toString();
+  var minutes = time.substring(time.length-2, time.length);
+  var hour = parseInt(time.substring(0, time.length-2));
+
+  var period = "AM";
+  if (hour >= 12) {
+    period = "PM";
+  }
+
+  if (hour > 12) {
+    period = "PM";
+    hour -= 12;
+  }
+
+  return hour + ":" + minutes + period;
+}
 
 function isLecture(section) {
   return section.component == "LEC" || section.component == "SEM";

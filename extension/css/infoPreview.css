@@ -70,14 +70,14 @@ span[class$='-warning'] {
   margin-right: 5px;
   display:inline-block;
 }
-span[class^='early'] {
+.early-warning {
   background-color:#ffdd57;
   color:black;
 }
-span[class^='full'] {
+.full-warning {
   background-color:#ff3860;
 }
-span[class^='consent'] {
+.consent-warning {
   background-color:#2366d1;
 }
 
@@ -98,7 +98,10 @@ span[class$="-times"] {
 .lec-times {
   background-color:#18b85e;
 }
-
 .dis-times {
   background-color:#18b8ab;
+}
+.section-full {
+  opacity: 0.4;
+  text-decoration: line-through;
 }

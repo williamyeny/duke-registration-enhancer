@@ -37,6 +37,10 @@ chrome.storage.sync.get({  //default values
         showOldNumber: {
           name: "Show old course numbers in preview",
           enabled: false
+        },
+        showFullTimes: {
+          name: "Show days & times for sections that are full",
+          enabled: false
         }
       }
     },

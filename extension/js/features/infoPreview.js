@@ -120,6 +120,7 @@ function setDescriptionTooltip(badge, tooltip) {
         var oldNumber = iframeContents.find("#DERIVED_SSS_BCC_DESCR\\$" + getCourseIndex(badge)).text();
         oldNumberText = "<p><strong>Old number: </strong>" + oldNumber + "</p>";
       }
+
       // add 'early' warning
       var earlyText = "";
       data.sections.some(function (section) { // https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
@@ -181,23 +182,34 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
   if (!multipleTopics) {
     data.sections.forEach(function (section) { 
       var meeting = section.meetings[0];
+      var full = section.openSeats <= 0;
 
-      var spanClass = "lec-times";
-      if (!isLecture(section)) {
-        spanClass = "dis-times";
-      }
-      var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
+      if (!full || features.infoPreview.settings.showFullTimes.enabled) { // show times of sections that are full only if the setting is enabled
 
-      var timesHtml = "No times available";
-      if (meeting.startTime > 0 && meeting.endTime > 0) {
-        timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
-      }
+        var spanClass;
+        if (isLecture(section)) {
+          spanClass = "lec-times";
+        } else {
+          spanClass = "dis-times";
+        }
+        if (full) {
+          spanClass = "section-full " + spanClass;
+        }
+        var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
 
-      var tooltipHtml = "<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>";
-      if (isLecture(section)) {
-        tooltip.prepend(tooltipHtml); // bump lectures to the top
+        var timesHtml;
+        if (meeting.startTime > 0 && meeting.endTime > 0) {
+          timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
+        } else {
+          timesHtml = "No times available"
+        }
+
+        var tooltipHtml = "<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>";
+        if (isLecture(section)) {
+          tooltip.prepend(tooltipHtml); // bump lectures to the top
+        }
+        tooltip.append(tooltipHtml);
       }
-      tooltip.append(tooltipHtml);
     });
   } else {
     tooltip.html("<p>Courses with multiple topics have too many times! :(</p>");

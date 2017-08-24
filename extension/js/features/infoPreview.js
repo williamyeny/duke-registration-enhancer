@@ -215,7 +215,7 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
       }
     });
   } else {
-    tooltip.html("<p>Courses with multiple topics have too many times! :(</p>");
+    tooltip.html("<p>Previewing days and times aren't supported for courses with multiple topics :(</p>");
   }
 
   // update cache

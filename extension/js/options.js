@@ -38,10 +38,10 @@ function saveOptions() {
   chrome.storage.sync.set({features:featuresObject}, function () {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
+    status.textContent = 'Saved! Be sure to refresh DukeHub!';
     setTimeout(function () {
       status.textContent = '';
-    }, 2000);
+    }, 5000);
   });
 }
 

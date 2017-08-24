@@ -4,6 +4,8 @@
 */
 
 //when selecting elements in the registration page, you call iframeContents.find("query here") instead of $("query here")
+
+//default content of tooltip
 const defaultTooltip = "Loading...";
 
 function infoPreview(mutations) {
@@ -277,14 +279,14 @@ function updateCache(courseCode, badgeName, badgeValue) {
   }
 
   // upload/sync local cache -> cloud cache
-  chrome.storage.sync.set({
-    cache: {
-      [courseCode]: {
-        [badgeName]: {
-          value: badgeValue, 
-          timestamp: timestamp 
-        }
-      }
-    }
-  }); 
+  // chrome.storage.sync.set({
+  //   cache: {
+  //     [courseCode]: {
+  //       [badgeName]: {
+  //         value: badgeValue, 
+  //         timestamp: timestamp 
+  //       }
+  //     }
+  //   }
+  // }); 
 }

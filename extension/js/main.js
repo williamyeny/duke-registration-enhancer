@@ -60,7 +60,9 @@ chrome.storage.sync.get({  //default values
   chrome.storage.sync.set(s);
 
   // load local cache from cloud cache
-  cache = s.cache;
+  // cache = s.cache;
+  cache = {};
+  console.log("cache: " + JSON.stringify(cache));
   expireEntireCache(); // check for outdated entries
 
   //initialize

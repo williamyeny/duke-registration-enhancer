@@ -180,9 +180,9 @@ function setDescriptionTooltip(badge, tooltip) {
 }
 
 function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip using data from previously done request
-  tooltip.html("");
 
   if (!multipleTopics) {
+    tooltip.html(""); // clear default tooltip
     data.sections.forEach(function (section) { 
       var meeting = section.meetings[0];
       var full = section.openSeats <= 0;
@@ -214,6 +214,10 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
         tooltip.append(tooltipHtml);
       }
     });
+
+    if (tooltip.html() == "") { // if no data was added to the tooltip...
+      tooltip.html("<p>No available days/times. Either the class is completely full, or the class currently has no sections.</p>");
+    }
   } else {
     tooltip.html("<p>Previewing days and times aren't supported for courses with multiple topics :(</p>");
   }

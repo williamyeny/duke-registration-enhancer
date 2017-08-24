@@ -163,7 +163,7 @@ function setDescriptionTooltip(badge, tooltip) {
     tooltip.html(tooltipHtml);
     
     // set times toolip
-    setTimesTooltip($(badge).parent().children(".times-info").children(), data);
+    setTimesTooltip($(badge).parent().children(".times-info").children(), data, multipleTopics);
 
     // set size
     if (tooltip.width() > 400) {
@@ -175,26 +175,30 @@ function setDescriptionTooltip(badge, tooltip) {
   });
 }
 
-function setTimesTooltip(tooltip, data) { // sets times tooltip using data from previously done request
+function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip using data from previously done request
   tooltip.html("");
 
-  data.sections.forEach(function (section) { 
-    var meeting = section.meetings[0];
+  if (!multipleTopics) {
+    data.sections.forEach(function (section) { 
+      var meeting = section.meetings[0];
 
-    var spanClass = "lec-times";
-    if (!isLecture(section)) {
-      spanClass = "dis-times";
-    }
-    var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
-    console.log(meeting.startTime);
+      var spanClass = "lec-times";
+      if (!isLecture(section)) {
+        spanClass = "dis-times";
+      }
+      var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
+      console.log(meeting.startTime);
 
-    var timesHtml = "No times available";
-    if (meeting.startTime > 0 && meeting.endTime > 0) {
-      timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
-    }
-    
-    tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>");
-  });
+      var timesHtml = "No times available";
+      if (meeting.startTime > 0 && meeting.endTime > 0) {
+        timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
+      }
+
+      tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>");
+    });
+  } else {
+    tooltip.html("<p>Courses with multiple topics have too many times! :(</p>");
+  }
 
   // update cache
   updateCache(getCourseCode(tooltip.parent()), "times", tooltip.html());

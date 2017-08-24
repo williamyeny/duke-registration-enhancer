@@ -12,7 +12,7 @@ var cache;
 const cacheLifetime = 600000;
 // const cacheLifetime = 20000;
 
-//get extension settings
+// get extension settings
 chrome.storage.sync.get({  //default values
   features: {
     appearanceUpgrades: {
@@ -56,7 +56,7 @@ chrome.storage.sync.get({  //default values
     console.log("  " + features[feature].name + ": " + features[feature].enabled);
   }
 
-  //update options in case default options are created
+  // update options in case default options are created
   chrome.storage.sync.set(s);
 
   // load local cache from cloud cache
@@ -65,7 +65,7 @@ chrome.storage.sync.get({  //default values
   console.log("cache: " + JSON.stringify(cache));
   expireEntireCache(); // check for outdated entries
 
-  //initialize
+  // initialize
   injectCss();
   injectJs();
 });

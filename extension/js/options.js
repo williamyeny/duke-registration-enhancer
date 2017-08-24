@@ -50,7 +50,7 @@ function saveOptions() {
 function restoreOptions() {
   chrome.storage.sync.get(null, function (options) {
 
-    //generate HTML
+    // generate HTML
     var featuresHtml;
     var features = options.features;
     if (Object.keys(options).length) {

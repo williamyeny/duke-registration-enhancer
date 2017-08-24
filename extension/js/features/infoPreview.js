@@ -123,35 +123,38 @@ function setDescriptionTooltip(badge, tooltip) {
 
       // add 'early' warning
       var earlyText = "";
-      data.sections.some(function (section) { // https://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
+      for (i = 0; i < data.sections.length; i++) {
+        var section = data.sections[i];
         var meeting = section.meetings[0];
 
-        if (meeting.startTime >= 900 && isLecture(section)) { // if after 9 am, break
-          return true; // won't break if omitting true
+        if (meeting.startTime >= 900 && isLecture(section)) { // immediately break if just 1 lecture is after 9 am
+          break; 
         } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
           earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
         }
-      });
+      }
 
       // add 'full' warning
       var fullText = "";
-      data.sections.some(function (section) {
-        if (section.openSeats > 0 && isLecture(section)) {
-          return true;
+      for (i = 0; i < data.sections.length; i++) {
+        var section = data.sections[i];
+        if (section.openSeats > 0 && isLecture(section)) { // immediately break if just 1 lecture is not full
+          break;
         } else if (section == data.sections[data.sections.length - 1]) {
           fullText = "<span class='full-warning'>Lectures are full</span>";
         }
-      });
+      }
 
       // add 'instructor consent' warning
       var consentText = "";
-      data.sections.some(function (section) {
+      for (i = 0; i < data.sections.length; i++) {
+        var section = data.sections[i];
         if (section.enrollmentRequirements[0].description == "No Special Consent Required" && isLecture(section)) {
-          return true;
+          break;
         } else if (section == data.sections[data.sections.length - 1]) {
           consentText = "<span class='consent-warning'>Instructor consent required</span>";
         }
-      });
+      }
 
       tooltipHtml = formatDescription(description) + oldNumberText + "<p>" + fullText + earlyText + consentText + "</p>";
     } else { // if it does have multiple topics, use old URL

@@ -17,7 +17,7 @@ function infoPreview(mutations) {
 
         // add badge holder + badges
         var descHtml = "<div class='description-info'>Description<div class='description-tooltip'><p>" + defaultTooltip + "</p></div></div>";
-        var timesHtml = "<div class='times-info'>Days + Times<div class='times-tooltip'><p>" + defaultTooltip + "</p></div></div>";
+        var timesHtml = "<div class='times-info'>Days & Times<div class='times-tooltip'><p>" + defaultTooltip + "</p></div></div>";
         iframeContents.find("div[id^='win0divDU_SS_SUBJ_CAT_DESCR']").append("<div class='info-preview'>" + descHtml + timesHtml + "</div>");
 
         // add listeners

@@ -187,14 +187,17 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
         spanClass = "dis-times";
       }
       var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
-      console.log(meeting.startTime);
 
       var timesHtml = "No times available";
       if (meeting.startTime > 0 && meeting.endTime > 0) {
         timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
       }
 
-      tooltip.append("<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>");
+      var tooltipHtml = "<p>" + classTypeHtml + meeting.days + " | " + timesHtml + "</p>";
+      if (isLecture(section)) {
+        tooltip.prepend(tooltipHtml); // bump lectures to the top
+      }
+      tooltip.append(tooltipHtml);
     });
   } else {
     tooltip.html("<p>Courses with multiple topics have too many times! :(</p>");

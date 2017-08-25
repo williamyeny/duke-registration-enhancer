@@ -13,45 +13,36 @@ function rmpLink(mutations) {
         var pspans = $("#ptifrmtgtframe").contents().find("span[id*='DU_DERIVED_SS_DESCR100_2']");
         if (pspans.length > 0) {
           pspans.each(function (index) {
-            //get professor name(s)
-            var pname = $(this).text();
-            //modify professor name(s)
+            if (!$(this).next().length) { // check if it doesn't already have the RMP link
+              //get professor name(s)
+              var pname = $(this).text();
+              //modify professor name(s)
 
-            // check if course has two instructors- DukeHub puts a dash in between, thank god
-            var pnameSplit;
-            if (pname.indexOf("-") > -1) {
-              var pnames = pname.split("-");
-              pnameSplit = pnames[0].split(" ");
-              // need to figure out how to make API calls and injections for both professors? For now, we just get rating for the first (primary) instructor.
-            } else {
-              pnameSplit = pname.split(" ");
+              // check if course has two instructors- DukeHub puts a dash in between, thank god
+              var pnameSplit;
+              if (pname.indexOf("-") > -1) {
+                var pnames = pname.split("-");
+                pnameSplit = pnames[0].split(" ");
+                // need to figure out how to make API calls and injections for both professors? For now, we just get rating for the first (primary) instructor.
+              } else {
+                pnameSplit = pname.split(" ");
+              }
+
+              //split full name into first and last name for API call
+              var firstName = pnameSplit[0];
+              var lastName = pnameSplit[pnameSplit.length - 1];
+              // fix for suffixes
+              if (['I', 'II', 'III', 'IV', 'V', 'Jr.', 'Sr.', 'Phd.'].indexOf(lastName) > -1) {
+                lastName = pnameSplit[pnameSplit.length - 2];
+              }
+              
+              
+              // here's the sample URL I got: http://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Duke+University&schoolID=1350&query=Connel+Fullenkamp
+              var url = "http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=duke+university&queryoption=HEADER&query=" + firstName + "+" + lastName + "&facetSearch=true"	
+              var ratingHtml = "<br><a target='_blank' href='" + url + "'>Search on RMP</a>";
+              //inject to HTML
+              $(this).after(ratingHtml); //puts it into td
             }
-
-            //split full name into first and last name for API call
-            var firstName = pnameSplit[0];
-            var lastName = pnameSplit[pnameSplit.length - 1];
-            // fix for suffixes
-            if (['I', 'II', 'III', 'IV', 'V', 'Jr.', 'Sr.', 'Phd.'].indexOf(lastName) > -1) {
-              lastName = pnameSplit[pnameSplit.length - 2];
-            }
-
-            // console.info("Professor first name: " + firstName + ", last name: " + lastName);
-
-            //search RMP for professor
-            var span = $(this);
-            // here's the sample URL I got: http://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Duke+University&schoolID=1350&query=Connel+Fullenkamp
-            var url = "http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=duke+university&queryoption=HEADER&query=" + firstName + "+" + lastName + "&facetSearch=true"
-            // console.info(url)
-            // var result = pname.link(url);
-            // $(this).innerHTML = result;  	
-            
-            //add link rest of html (improve to be the text itself)
-            var ratingHtml = "<div class='prof-wrapper'><a target='_blank' href='" + url + "' class='color-" + "green" + " rating'>" + " Check for RMP Rating" + "</a></div>";
-            //inject to HTML
-            span.parent().after(ratingHtml); //puts it into td
-            //move span to wrapper
-            span.prependTo(span.parent().parent().children(".prof-wrapper"));
-
           });
         }
       }

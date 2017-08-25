@@ -123,14 +123,16 @@ function setDescriptionTooltip(badge, tooltip) {
 
       // add 'early' warning
       var earlyText = "";
-      for (i = 0; i < data.sections.length; i++) {
-        var section = data.sections[i];
-        var meeting = section.meetings[0];
+      if (!(meeting.startTime == 0 && meeting.endTime == 0)) { // make sure times are available
+        for (i = 0; i < data.sections.length; i++) {
+          var section = data.sections[i];
+          var meeting = section.meetings[0];
 
-        if (meeting.startTime >= 900 && isLecture(section)) { // immediately break if just 1 lecture is after 9 am
-          break; 
-        } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
-          earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
+          if (meeting.startTime >= 900 && isLecture(section)) { // immediately break if just 1 lecture is after 9 am
+            break; 
+          } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
+            earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
+          }
         }
       }
 
@@ -201,7 +203,7 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
         var classTypeHtml = "<span class='" + spanClass + "'>" + section.component + "</span>";
 
         var timesHtml;
-        if (meeting.startTime > 0 && meeting.endTime > 0) {
+        if (!(meeting.startTime == 0 && meeting.endTime == 0)) {
           timesHtml = toStandardTime(meeting.startTime) + " - " + toStandardTime(meeting.endTime);
         } else {
           timesHtml = "No times available"

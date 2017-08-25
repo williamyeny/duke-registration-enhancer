@@ -308,9 +308,9 @@ function buildDescriptionUrl(badge, multipleTopics) {
 }
 
 function formatDescription(desc) {
-  desc = partitionByKeyword(desc, "Instructor:");
+  desc = partitionByKeyword(desc, "Instructor:", "Possible instructor:");
   desc = partitionByKeyword(desc, "Prerequisite:");
-  desc = partitionByKeyword(desc, "Instructors:");
+  desc = partitionByKeyword(desc, "Instructors:", "Possible instructors:");
   desc = partitionByKeyword(desc, "Prerequisites:");
   return desc;
 }
@@ -319,16 +319,28 @@ function formatDescription(desc) {
   converts raw text to more organized HTML using a keyword to split
   e.g. "This is a description. Instructor: Bob" => "<p>This is a description.<p><p><strong>Instructor</strong>: Bob</p>"
 */
-function partitionByKeyword(text, keyword) {
+function partitionByKeyword(text, keyword, replaceBy = null) {
   var index = text.indexOf(keyword);
   if (index != -1) {
-    text = text.substring(0, index) + "</p><p><strong>" + text.substring(index, index + keyword.length) + "</strong>" + text.substring(index + keyword.length, text.length);
+    var beforeText = text.substring(0, index);
+    var keywordText = keyword;
+    var afterText = text.substring(index + keyword.length, text.length);
+
+    // optionally replace keyword
+    if (replaceBy != null) {
+      keywordText = replaceBy;
+    }
+
+    text = beforeText + "</p><p><strong>" + keywordText + "</strong>" + afterText;
   }
 
   // add surrounding tags
   if (text.substring(0, 3) != "<p>") {
     text = "<p>" + text + "</p>";
   }
+
+  
+
   return text;
 }
 

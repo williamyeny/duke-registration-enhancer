@@ -10,7 +10,6 @@ var cache;
 
 // how long a course lasts in cache before expiring
 const cacheLifetime = 600000;
-// const cacheLifetime = 20000;
 
 // get extension settings
 chrome.storage.sync.get({  //default values

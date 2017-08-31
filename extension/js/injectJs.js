@@ -16,8 +16,6 @@ function injectJs() {
         console.log("Successfully logged into Schedule Builder!");
     });
 
-    // get cache
-
     // Runs when the main registration window loads
     $("#ptifrmtgtframe").on("load", function () {
         // get contents of the loaded frame

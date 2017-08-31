@@ -14,7 +14,7 @@
 /* badges/previews, i.e. '.description-info' */
 div[class$='-info'] {
   display: inline;
-  margin: 0px 3px;
+  margin: 0px 5px;
   padding:3px 10px;
   border-radius: 3px;
   color:white;

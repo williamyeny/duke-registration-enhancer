@@ -17,6 +17,8 @@
     "css/restyle.css",
     "css/infoPreview.css",
 
+    "options.html",
+
     "js/vendor/jquery-3.2.1.min.js"
   ],
   "options_ui": {
@@ -32,6 +34,7 @@
       "js/injectCss.js", 
       "js/injectJs.js",
       "js/main.js",
+      "js/optionsButton.js",
 
       "js/features/instantCollapse.js",
       "js/features/rmpLink.js",

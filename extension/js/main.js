@@ -48,9 +48,14 @@ chrome.storage.sync.get({  //default values
       name: "RateMyProfessors link",
       description: "Links to professor's potentially available RateMyProfessors profile.",
       enabled: true
+    },
+    optionsButton: {
+      name: "Show the \"DRE Settings\" button in DukeHub",
+      enabled: true
     }
   },
-  cache: {}
+  cache: {},
+
 }, function (s) {
   console.log("Duke Registration Enhancer features loaded: ");
 

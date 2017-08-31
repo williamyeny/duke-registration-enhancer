@@ -23,6 +23,9 @@ function injectJs() {
         // get contents of the loaded frame
         iframeContents = $(this).contents();
 
+        // add options button
+        if (features.optionsButton.enabled) optionsButton();
+
         // when dom is changed...
         var observer = new MutationObserver(function (mutations) {
             /*
@@ -36,7 +39,6 @@ function injectJs() {
 
             // info preview
             if (features.infoPreview.enabled) infoPreview(mutations);
-
         });
         
         // observe the body of the iframe when any elements are added

@@ -123,11 +123,11 @@ function setDescriptionTooltip(badge, tooltip) {
 
       // add 'early' warning
       var earlyText = "";
-      if (!(meeting.startTime == 0 && meeting.endTime == 0)) { // make sure times are available
-        for (i = 0; i < data.sections.length; i++) {
-          var section = data.sections[i];
-          var meeting = section.meetings[0];
-
+      
+      for (i = 0; i < data.sections.length; i++) {
+        var section = data.sections[i];
+        var meeting = section.meetings[0];
+        if (!(meeting.startTime == 0 && meeting.endTime == 0)) { // make sure times are available
           if (meeting.startTime >= 900 && isLecture(section)) { // immediately break if just 1 lecture is after 9 am
             break; 
           } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
@@ -135,6 +135,7 @@ function setDescriptionTooltip(badge, tooltip) {
           }
         }
       }
+      
 
       // add 'full' warning
       var fullText = "";

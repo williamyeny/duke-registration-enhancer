@@ -27,11 +27,11 @@
   },
 
   "content_scripts": [ {
-    "js": [ 
-      "js/vendor/jquery-3.2.1.min.js", 
+    "js": [
+      "js/vendor/jquery-3.2.1.min.js",
 
       "js/dropDownClickListener.js",
-      "js/injectCss.js", 
+      "js/injectCss.js",
       "js/injectJs.js",
       "js/main.js",
       "js/optionsButton.js",
@@ -43,5 +43,11 @@
     "css" : [ "css/restyle.css" ],
     "matches": ["*://ihprd.siss.duke.edu/psp/IHPRD01/EMPLOYEE/SA/c/DU_WORKCENTER.DU_WORKCENTER_09.GBL*"],
     "all_frames": true
-  }]
+  }],
+
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
 }

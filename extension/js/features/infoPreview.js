@@ -27,7 +27,7 @@ function infoPreview(mutations) {
         } else {
           addHover();
         }
-        
+
       }
     });
 
@@ -52,7 +52,7 @@ function addClick() {
       hideTooltip(e.target); // hide that tooltip
     } else if(!isBadge && !$(e.target).parent("div[class$='-info']").length) { // else, if not clicked on any badge + its contents...g
       hideTooltip(iframeContents.find("div[class$='-info']")); // hide all tooltips
-    } else 
+    } else
 
     // show tooltips if there is nothing to hide
     if (isBadge){
@@ -70,9 +70,9 @@ function showTooltip(badge, badgeName) { // badgeName is "description", "synopsi
     tooltip.html("<p>" + defaultTooltip + "</p>"); // if so, clear tooltip
   }
 
-  //populate description                    
+  //populate description
   if (tooltip.children().html() == defaultTooltip) {
-    
+
     if (courseCode in cache && badgeName in cache[courseCode]) { // if it is in cache already....
       tooltip.html(cache[courseCode][badgeName].value); // get the data of the badge from the cache
     } else { // course not in cache -- do initial set of tooltip
@@ -123,19 +123,19 @@ function setDescriptionTooltip(badge, tooltip) {
 
       // add 'early' warning
       var earlyText = "";
-      
+
       for (i = 0; i < data.sections.length; i++) {
         var section = data.sections[i];
         var meeting = section.meetings[0];
         if (!(meeting.startTime == 0 && meeting.endTime == 0)) { // make sure times are available
           if (meeting.startTime >= 900 && isLecture(section)) { // immediately break if just 1 lecture is after 9 am
-            break; 
+            break;
           } else if (section == data.sections[data.sections.length - 1]) { // else if last index (none after 9am)
             earlyText = "<span class='early-warning'>Lectures start before 9 AM</span>";
           }
         }
       }
-      
+
 
       // add 'full' warning
       var fullText = "";
@@ -168,7 +168,7 @@ function setDescriptionTooltip(badge, tooltip) {
 
     // inject into tooltip
     tooltip.html(tooltipHtml);
-    
+
     // set times toolip
     setTimesTooltip($(badge).parent().children(".times-info").children(), data, multipleTopics);
 
@@ -186,7 +186,7 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
 
   if (!multipleTopics) {
     tooltip.html(""); // clear default tooltip
-    data.sections.forEach(function (section) { 
+    data.sections.forEach(function (section) {
       var meeting = section.meetings[0];
       var full = section.openSeats <= 0;
 
@@ -195,6 +195,8 @@ function setTimesTooltip(tooltip, data, multipleTopics) { // sets times tooltip 
         var spanClass;
         if (isLecture(section)) {
           spanClass = "lec-times";
+        } else if (section.component == "LAB") {
+          spanClass = "lab-times"
         } else {
           spanClass = "dis-times";
         }
@@ -253,7 +255,7 @@ function isLecture(section) {
 
 // e.g. 101
 function getCourseNumber(index) {
-  // uses course index to find corresponding element containing course number with same index 
+  // uses course index to find corresponding element containing course number with same index
   return iframeContents.find("#DU_SS_SUBJ_CAT_CATALOG_NBR\\$" + index).html();
 }
 
@@ -288,7 +290,7 @@ function getCourseIndex(badge) {
 }
 
 // returns the HTML ID of a course which holds the specified badge
-function getCourseHtmlId(badge) { 
+function getCourseHtmlId(badge) {
   return $(badge).parent().parent().attr("id");
 }
 
@@ -318,7 +320,7 @@ function formatDescription(desc) {
   return desc;
 }
 
-/* 
+/*
   converts raw text to more organized HTML using a keyword to split
   e.g. "This is a description. Instructor: Bob" => "<p>This is a description.<p><p><strong>Instructor</strong>: Bob</p>"
 */
@@ -342,7 +344,7 @@ function partitionByKeyword(text, keyword, replaceBy = null) {
     text = "<p>" + text + "</p>";
   }
 
-  
+
 
   return text;
 }
@@ -357,12 +359,12 @@ function updateCache(courseCode, badgeName, badgeValue) {
       cache[courseCode][badgeName] = {value: badgeValue, timestamp: timestamp};
     }
   } else { // if course doesn't exist, create a new course hash with that property
-    cache[courseCode] = { 
+    cache[courseCode] = {
       [badgeName]: {
-        value: badgeValue, 
-        timestamp: timestamp 
+        value: badgeValue,
+        timestamp: timestamp
       }
-    }; 
+    };
   }
 
   // upload/sync local cache -> cloud cache
@@ -370,10 +372,10 @@ function updateCache(courseCode, badgeName, badgeValue) {
   //   cache: {
   //     [courseCode]: {
   //       [badgeName]: {
-  //         value: badgeValue, 
-  //         timestamp: timestamp 
+  //         value: badgeValue,
+  //         timestamp: timestamp
   //       }
   //     }
   //   }
-  // }); 
+  // });
 }

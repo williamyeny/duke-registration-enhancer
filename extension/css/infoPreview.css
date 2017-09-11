@@ -30,8 +30,8 @@ div[class$='-info']:hover::after {
   position: absolute;
   top:0px;
   left:100%;
-  width:5px;  
-  height:20px;  
+  width:5px;
+  height:20px;
 }
 div[class^='description'], div[class^='times'] {
   background-color:#01518e;
@@ -99,7 +99,10 @@ span[class$="-times"] {
   background-color:#18b85e;
 }
 .dis-times {
-  background-color:#18b8ab;
+  background-color:#1898b8;
+}
+.lab-times {
+  background-color:#b8186f;
 }
 .section-full {
   opacity: 0.4;

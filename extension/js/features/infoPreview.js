@@ -179,6 +179,10 @@ function setDescriptionTooltip(badge, tooltip) {
     }
   }).fail(function () { // if unable to get URL
     console.log("Duke Registration Enhancer error: unable to get description. Try refreshing the page!");
+
+    var notAvailableText = "<p>DRE isn't available outside of registration periods!</p>";
+    tooltip.html(notAvailableText); // set desc tooltip
+    $(badge).parent().children(".times-info").children().html(notAvailableText); // set times tooltip
   });
 }
 

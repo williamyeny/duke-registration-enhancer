@@ -1,5 +1,7 @@
 # Duke Registration Enhancer
 
+## NOTE: This project is currently under reconstruction upon Duke's recent redesign of their class schedule builder. 
+
 Chrome extension that enhances Dukehub's registration page by changing the page's appearance and adding features. [Download it here!](https://chrome.google.com/webstore/detail/duke-registration-enhance/ahlkcnepemhengifaokogcgbfggpkjmk) Developed by Will Ye and Shamikh Hossain.
 
 ## Disclaimers
